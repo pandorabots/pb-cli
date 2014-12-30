@@ -94,6 +94,8 @@ var okResp = function (error, response, body) {
 var listFileResp = function (error, response, body) {
     var jObj = JSON.parse(body);
     if (response.statusCode === 200) {
+	if (jObj.properties.length) console.log(jObj.botname + ".properties");
+	if (jObj.pdefaults.length) console.log(jObj.botname + ".pdefaults");
 	jObj.files.forEach (function (entry) { console.log(entry.name); });
 	jObj.sets.forEach (function (entry) { console.log(entry.name + ".set"); });
 	jObj.maps.forEach (function (entry) { console.log(entry.name + ".map"); });

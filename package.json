@@ -1,0 +1,26 @@
+{
+  "name": "pb-cli",
+  "version": "0.0.1",
+  "description": "CLI for Pandorabots API",
+  "keywords": [
+    "Pandorabots",
+    "NLP",
+    "AI"
+  ],
+  "homepage": "http://github.com/pandorabots/pb-cli/",
+  "bugs": {
+    "url": "http://github.com/pandorabots/pb-cli/issues"
+  },
+  "license": "BSD",
+  "bin": { "pandorabots" : "./pb-cli.js"},
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/pandorabots/pb-cli.git"
+  },
+  "dependencies": {
+    "commander": ">=2.5.1",
+    "nconf": ">=0.7.1",
+    "request": ">=2.51.0"
+  },
+  "author": ["yyconn <conn@conn.jp>"]
+}

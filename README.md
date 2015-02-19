@@ -69,17 +69,27 @@ List all files
     pandorabots get --botname alice
 ```
 
-Alternatively, you can get ZIP archive of all of your bot's files. 
-
-```
-    pandorabots get --botname alice --all
-```
-
 Download a file
 -------------
 
 ```
     pandorabots download something.aiml --botname alice
+```
+
+Pull all files
+--------------
+
+```
+    pandorabots pull --botname alice
+```
+
+Download zip file of entire bot
+--------------
+
+Alternatively to pull method, you can get ZIP archive of all of your bot's files.
+
+```
+    pandorabots get --botname alice --all
 ```
 
 Remove a file

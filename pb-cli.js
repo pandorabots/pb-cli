@@ -91,15 +91,31 @@ var okResp = function (error, response, body) {
     console.log(jObj.status === 'ok' ? jObj.status : jObj.message)
 }
 
+var fileList = function (jObj) {
+    var files = [];
+    if (jObj.properties.length) files.push(jObj.botname + ".properties");
+    if (jObj.pdefaults.length) files.push(jObj.botname + ".pdefaults");
+    jObj.files.forEach (function (entry) { files.push(entry.name); });
+    jObj.sets.forEach (function (entry) { files.push(entry.name + ".set"); });
+    jObj.maps.forEach (function (entry) { files.push(entry.name + ".map"); });
+    jObj.substitutions.forEach (function (entry) { files.push(entry.name + ".substitution"); });
+    return files;
+}
+
 var listFileResp = function (error, response, body) {
     var jObj = JSON.parse(body);
+    if (response.statusCode === 200)
+	fileList(jObj).forEach (function (file) { console.log(file); });
+    else
+	console.log(jObj.message)
+}
+
+var pullResp = function (error, response, body) {
+    var jObj = JSON.parse(body);
     if (response.statusCode === 200) {
-	if (jObj.properties.length) console.log(jObj.botname + ".properties");
-	if (jObj.pdefaults.length) console.log(jObj.botname + ".pdefaults");
-	jObj.files.forEach (function (entry) { console.log(entry.name); });
-	jObj.sets.forEach (function (entry) { console.log(entry.name + ".set"); });
-	jObj.maps.forEach (function (entry) { console.log(entry.name + ".map"); });
-	jObj.substitutions.forEach (function (entry) { console.log(entry.name + ".substitution"); });
+	fileList(jObj).forEach (function (file) {
+	    request.get(fileUri(file)).pipe(fs.createWriteStream(file));
+	});
     }
     else
 	console.log(jObj.message)
@@ -280,9 +296,11 @@ else if (program.args[0] === 'get' && program.all) {
     request.get(zipUri()).pipe(fs.createWriteStream(nconf.get('botname') + '.zip'));
 }
 
-// Retrieve all files
+// Retrieve all files at once
 else if (program.args[0] === 'pull') {
-    request.get(zipUri()).pipe(unzip.Extract({path: 'test'}));
+    //request.get(zipUri()).pipe(unzip.Extract({path: nconf.get('botname')}));
+    //it should work however gets freeze after zip have been downloaded; ugly workaround below
+    request.get(botUri(), pullResp);
 }
 
 // Compile a bot

@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "commander": ">=2.5.1",
+    "glob": ">=4.3.2",
     "nconf": ">=0.7.1",
     "request": ">=2.51.0"
   },

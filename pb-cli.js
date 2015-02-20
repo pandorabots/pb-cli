@@ -3,6 +3,7 @@
 'use strict';
 
 var fs = require('fs');
+var glob = require('glob');
 var nconf = require('nconf');
 var path = require('path');
 var program = require('commander');
@@ -263,6 +264,20 @@ else if (program.args[0] === 'upload') {
     }
     else {
 	console.log('usage: upload <filename>');
+    }
+}
+
+// Upload all files at once
+else if (program.args[0] === 'push') {
+    var files = glob.sync('*.{pdefaults,properties,map,set,substitution,aiml}', {});
+    if (files.length) {
+	files.forEach (function (entry) {
+	    console.log('uploading: ' + entry);
+	    fs.createReadStream(entry).pipe(request.put(fileUri(entry), okResp))
+	});
+    }
+    else {
+	console.log('no bot files found');
     }
 }
 

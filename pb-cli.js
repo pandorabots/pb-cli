@@ -25,7 +25,7 @@ var composeUri = function (mode, botname, kind, filename) {
 	hostname: nconf.get('hostname')
     }
     var path = mode;
-    path += sep(nconf.get('app_id'));
+    path += sep(conf_app_id());
     path += sep(botname);
     path += sep(kind);
     path += sep(filename);
@@ -34,7 +34,7 @@ var composeUri = function (mode, botname, kind, filename) {
 }
 
 var composeParams = function (params) {
-    params.user_key = nconf.get('user_key');
+    params.user_key = conf_user_key();
     return params;
 }
 
@@ -45,7 +45,7 @@ var listUri = function () {
 }
 
 var botUri = function () {
-    var uri = composeUri('bot', nconf.get('botname'), '', '');
+    var uri = composeUri('bot', conf_botname(), '', '');
     uri.query = composeParams({});
     return url.format(uri);
 }
@@ -54,7 +54,7 @@ var fileUri = function (filename) {
     var ext = path.extname(filename);
     var base = path.basename(filename, ext);
     var kind = ext.slice(1);
-    var botname = nconf.get('botname');
+    var botname = conf_botname();
     var uri;
     if (kind === 'pdefaults' || kind === 'properties')
 	uri = composeUri('bot', botname, kind, '');
@@ -71,19 +71,19 @@ var fileUri = function (filename) {
 }
 
 var zipUri = function () {
-    var uri = composeUri('bot', nconf.get('botname'), '', '');
+    var uri = composeUri('bot', conf_botname(), '', '');
     uri.query = composeParams({return: 'zip'});
     return url.format(uri);
 }
 
 var verifyUri = function () {
-    var uri = composeUri('bot', nconf.get('botname'), 'verify', '');
+    var uri = composeUri('bot', conf_botname(), 'verify', '');
     uri.query = composeParams({});
     return url.format(uri);
 }
 
 var talkUri = function () {
-    var uri = composeUri('talk', nconf.get('botname'), '', '');
+    var uri = composeUri('talk', conf_botname(), '', '');
     return url.format(uri);
 }
 
@@ -138,14 +138,41 @@ var talkResp = function (error, response, body) {
 	console.log(jObj.message)
 }
 
+var conf_app_id = function () {
+    var app_id = nconf.get('app_id');
+    if (app_id === undefined) {
+	console.log('app_id required. use --app_id <app_id> or do init');
+	process.exit(1);
+    }
+    return app_id;
+}
+
+var conf_user_key = function () {
+    var user_key = nconf.get('user_key');
+    if (user_key === undefined) {
+	console.log('user_key required. use --user_key <user_key> or do init');
+	process.exit(1);
+    }
+    return user_key;
+}
+
+var conf_botname = function () {
+    var botname = nconf.get('botname');
+    if (botname === undefined) {
+	console.log('botname required. use --botname <botname> or do init');
+	process.exit(1);
+    }
+    return botname;
+}
+
 nconf.env();
 nconf.file({file: config});
 nconf.defaults({
     protocol: 'https',
     hostname: 'aiaas.pandorabots.com',
-    app_id: 'unknown',
-    user_key: 'unknown',
-    botname: 'mybot',
+    app_id: undefined,
+    user_key: undefined,
+    botname: undefined,
     client_name: undefined,
     sessionid: undefined,
     all: undefined,
@@ -239,22 +266,12 @@ else if (program.args[0] === 'list') {
 
 // Create a bot
 else if (program.args[0] === 'create') {
-    if (nconf.get('botname')) {
-	request.put(botUri(), okResp);
-    }
-    else {
-	console.log('usage: create --botname <botname>');
-    }
+    request.put(botUri(), okResp);
 }
 
 // Delete a bot
 else if (program.args[0] === 'delete') {
-    if (nconf.get('botname')) {
-	request.del(botUri(), okResp);
-    }
-    else {
-	console.log('usage: delete --botname <botname>');
-    }
+    request.del(botUri(), okResp);
 }
 
 // Upload a file
@@ -308,12 +325,12 @@ else if (program.args[0] === 'get' && !program.all) {
 
 // Retrieve all files as ZIP
 else if (program.args[0] === 'get' && program.all) {
-    request.get(zipUri()).pipe(fs.createWriteStream(nconf.get('botname') + '.zip'));
+    request.get(zipUri()).pipe(fs.createWriteStream(conf_botname() + '.zip'));
 }
 
 // Retrieve all files at once
 else if (program.args[0] === 'pull') {
-    //request.get(zipUri()).pipe(unzip.Extract({path: nconf.get('botname')}));
+    //request.get(zipUri()).pipe(unzip.Extract({path: conf_botname()}));
     //it should work however gets freeze after zip have been downloaded; ugly workaround below
     request.get(botUri(), pullResp);
 }

@@ -227,7 +227,7 @@ if (program.all)
 
 // Initialize
 if (program.args[0] === 'init') {
-    var params = ['app_id', 'user_key', 'hostname', 'botname'];
+    var params = ['app_id', 'user_key', 'botname', 'hostname'];
     var keyValues = {};
     var iface = readline.createInterface(process.stdin, process.stdout);
 
@@ -248,7 +248,7 @@ if (program.args[0] === 'init') {
 	process.exit(0);
     });
 
-    console.log('Enter app_id, user_key, hostname (optional), botname (optional).');
+    console.log('Enter app_id (required), user_key (required), botname (recommended), hostname (optional).');
     var prmpt = params[0] + '? ';
     iface.setPrompt(prmpt, prmpt.length);
     iface.prompt();

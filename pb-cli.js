@@ -246,6 +246,9 @@ if (program.args[0] === 'init') {
 	fs.writeFileSync(config, JSON.stringify(keyValues, null, 4));
 	console.log(config + " has been created.");
 	process.exit(0);
+    }).on('SIGINT', function() {
+	console.log("aborted.");
+	process.exit(2);
     });
 
     console.log('Enter app_id (required), user_key (required), botname (recommended), hostname (optional).');

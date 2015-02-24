@@ -64,7 +64,7 @@ var fileUri = function (filename) {
 	uri = composeUri('bot', botname, 'file', base + ext);
     else {
 	console.log('illegal file name: ' + filename);
-        return;
+	return;
     }
     uri.query = composeParams({});
     return url.format(uri);
@@ -89,7 +89,24 @@ var talkUri = function () {
 
 var okResp = function (error, response, body) {
     var jObj = JSON.parse(body);
-    console.log(jObj.status === 'ok' ? jObj.status : jObj.message)
+    if (jObj.status === 'ok')
+	console.log(jObj.status)
+    else {
+	console.log(jObj.message)
+	if (jObj.results !== undefined)
+	    console.log(JSON.stringify(jObj.results[0], null, 2))
+    }
+}
+
+var listBotResp = function (error, response, body) {
+    var jObj = JSON.parse(body);
+    if (response.statusCode === 200) {
+	jObj.forEach (function (entry) {
+	    console.log(entry.botname);
+	});
+    }
+    else
+	console.log(jObj.message)
 }
 
 var fileList = function (jObj) {
@@ -259,12 +276,7 @@ if (program.args[0] === 'init') {
 
 // List names of bots
 else if (program.args[0] === 'list') {
-    request.get(listUri(), function (error, response, body) {
-	var jObj = JSON.parse(body);
-	jObj.forEach (function (entry) {
-	    console.log(entry.botname);
-	});
-    });
+    request.get(listUri(), listBotResp);
 }
 
 // Create a bot
@@ -359,5 +371,12 @@ else if (program.args[0] === 'talk') {
     else {
 	console.log('usage: talk <text...>');
     }
+}
+
+else if (program.args[0] === undefined)
+    console.log('usage: <command> [--options...]');
+else {
+    console.log('invalid command: ' + program.args[0]);
+    process.exit(1);
 }
 

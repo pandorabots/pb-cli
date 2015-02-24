@@ -21,6 +21,7 @@
     "commander": ">=2.5.1",
     "glob": ">=4.3.2",
     "nconf": ">=0.7.1",
+    "prompt": ">=0.2.14",
     "request": ">=2.51.0"
   },
   "author": ["yyconn <conn@conn.jp>"]

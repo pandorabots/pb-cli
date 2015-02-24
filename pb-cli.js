@@ -9,7 +9,6 @@ var path = require('path');
 var program = require('commander');
 var prompt = require('prompt');
 var qs = require('querystring');
-var readline = require('readline');
 var request = require('request');
 var unzip = require('unzip');
 var url = require('url');
@@ -107,7 +106,8 @@ var deleteResp = function (error, response, body) {
 	console.log(jObj.message);
 	var prop  = {
 	    message: 'Re-enter the name of the bot to delete:',
-	    name: 'botname'
+	    name: 'botname',
+	    required: true
 	};
 	prompt.get(prop, function (error, result) {
 	    if (error) {
@@ -271,34 +271,32 @@ if (program.all)
 
 // Initialize
 if (program.args[0] === 'init') {
-    var params = ['app_id', 'user_key', 'botname', 'hostname'];
-    var keyValues = {};
-    var iface = readline.createInterface(process.stdin, process.stdout);
-
-    iface.on('line', function(line) {
-	var key = params.shift();
-	var value = line.trim();
-	keyValues[key] = value ? value : undefined;
-	if (params.length > 0) {
-	    var prmpt = params[0] + '? ';
-	    iface.setPrompt(prmpt, prmpt.length);
-	    iface.prompt();
-	}
-	else
-	    iface.close();
-    }).on('close', function() {
-	fs.writeFileSync(config, JSON.stringify(keyValues, null, 4));
-	console.log(config + " has been created.");
-	process.exit(0);
-    }).on('SIGINT', function() {
-	console.log("aborted.");
-	process.exit(2);
-    });
-
     console.log('Enter app_id (required), user_key (required), botname (recommended), hostname (optional).');
-    var prmpt = params[0] + '? ';
-    iface.setPrompt(prmpt, prmpt.length);
-    iface.prompt();
+    var props = [
+	{message: 'app_id?', name: 'app_id',
+	    required: true, validator: /^[0-9]+$/,
+	    warning: 'app_id must consist of numeric characters'},
+	{message: 'user_key?', name: 'user_key',
+	    required: true, validator: /^[0-9a-f]+$/,
+	    warning: 'user_key must consist of numeric and/or a-f characters'},
+	{message: 'botname?', name: 'botname'},
+	{message: 'hostname?', name: 'hostname'}
+    ];
+    prompt.get(props, function (error, result) {
+	if (error) {
+	    console.log("aborted.");
+	    process.exit(2);
+	}
+	else {
+	    var prop = {};
+	    for (var key in result) {
+		if (result[key]) {
+		    prop[key] = result[key];
+		}
+	    }
+	    fs.writeFileSync(config, JSON.stringify(prop, null, 4));
+	}
+    });
 }
 
 // List names of bots

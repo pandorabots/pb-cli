@@ -11,7 +11,12 @@ You will need both a `user_key` and `app_id`, which you can register for at the 
 Installation
 ------------
 
-Simply do npm install. pb-cli depends [commander](https://github.com/tj/commander.js), [glob](https://github.com/isaacs/node-glob), [nconf](https://github.com/flatiron/nconf), [request](https://github.com/request/request).
+Simply do npm install. pb-cli depends
+[commander](https://github.com/tj/commander.js),
+[glob](https://github.com/isaacs/node-glob),
+[nconf](https://github.com/flatiron/nconf),
+[prompt](https://github.com/flatiron/prompt),
+[request](https://github.com/request/request).
 
 ```
     npm install pb-cli

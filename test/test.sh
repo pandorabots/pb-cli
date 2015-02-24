@@ -8,7 +8,7 @@ function cmd {
 }
 
 # test of init method is omitted.
-test -f config.json || (echo "do init first."; exit 1)
+test -f chatbot.json || (echo "do init first."; exit 1)
 
 # set botname to alice
 export botname=alice

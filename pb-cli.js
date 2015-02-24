@@ -13,7 +13,7 @@ var request = require('request');
 var unzip = require('unzip');
 var url = require('url');
 
-var config = 'config.json';
+var config = 'chatbot.json';
 
 var sep = function (str) {
     return str ? '/' + str : '';

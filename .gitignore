@@ -27,8 +27,8 @@ node_modules
 # Users Environment Variables
 .lock-wscript
 
-# config.json
-config.json*
+# chatbot.json
+chatbot.json*
 
 # zip
 *.zip

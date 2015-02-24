@@ -21,7 +21,7 @@ Setup
 -----
 
 First, create a directory for your specific bot (like alice).
-Then do **pandorabots init** in the directory so as to generate **config.json** for convenience later on.
+Then do **pandorabots init** in the directory so as to generate **chatbot.json** for convenience later on.
 At least you need to enter `user_key` and `app_id` here.
 You can omit `--botname alice` in case you have entered `botname`.
 

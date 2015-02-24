@@ -61,6 +61,12 @@ cmd get
 echo %% upload file color.set
 cmd upload color.set
 
+echo %% pull all files
+cmd pull
+
+echo %% push all files
+cmd push
+
 echo %% compile bot alice again
 cmd compile
 

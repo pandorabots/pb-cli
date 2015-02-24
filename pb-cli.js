@@ -7,6 +7,7 @@ var glob = require('glob');
 var nconf = require('nconf');
 var path = require('path');
 var program = require('commander');
+var prompt = require('prompt');
 var qs = require('querystring');
 var readline = require('readline');
 var request = require('request');
@@ -98,6 +99,29 @@ var okResp = function (error, response, body) {
     }
 }
 
+var deleteResp = function (error, response, body) {
+    var jObj = JSON.parse(body);
+    if (jObj.status === 'ok')
+	console.log(jObj.status)
+    else {
+	console.log(jObj.message);
+	var prop  = {
+	    message: 'Re-enter the name of the bot to delete:',
+	    name: 'botname'
+	};
+	prompt.get(prop, function (error, result) {
+	    if (error) {
+		console.log("aborted.");
+		process.exit(2);
+	    }
+	    else {
+		nconf.set('botname', result.botname);
+		request.del(botUri(), deleteResp);
+	    }
+	});
+    }
+}
+
 var listBotResp = function (error, response, body) {
     var jObj = JSON.parse(body);
     if (response.statusCode === 200) {
@@ -181,6 +205,9 @@ var conf_botname = function () {
     }
     return botname;
 }
+
+prompt.message = "";
+prompt.delimiter = "";
 
 nconf.env();
 nconf.file({file: config});
@@ -286,7 +313,7 @@ else if (program.args[0] === 'create') {
 
 // Delete a bot
 else if (program.args[0] === 'delete') {
-    request.del(botUri(), okResp);
+    request.del(botUri(), deleteResp);
 }
 
 // Upload a file

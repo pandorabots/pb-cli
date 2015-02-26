@@ -47,6 +47,14 @@ host? (optional) ******
 
 The host field is optional, and will default to `aiaas.pandorabots.com`.
 
+## Run tests
+
+The `test` directory contains a shell script to test the CLI. You must first run `pb init` here to create a configuration, then run:
+
+```bash
+$ ./test.sh
+```
+
 ## Usage
 
 ### General

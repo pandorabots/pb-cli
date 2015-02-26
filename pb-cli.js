@@ -237,10 +237,10 @@ program
     .option('-b, --botname <botname>', 'name of bot')
     .option('-c, --client_name <client_name>', 'name of client')
     .option('-s, --sessionid <sessionid>', 'session id of conversation')
-    .option('-e, --extra', 'reset status of bot')
+    .option('-e, --extra', 'provides additional information with bot response')
     .option('-t, --trace', 'adds trace data into response')
-    .option('-r, --reload', 'force system to realod bot')
-    .option('-R, --recent', 'use recent pod even if it is older than files')
+    .option('-r, --reload', 'force system to reload bot')
+    .option('-R, --recent', 'use most recently compiled version of bot')
     .option('-a, --all', 'downloads all files')
     .parse(process.argv);
 

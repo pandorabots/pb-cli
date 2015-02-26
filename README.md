@@ -20,7 +20,7 @@ You should now be able to run the CLI by typing either `pandorabots` or `pb` in 
 
 The CLI introduces the concept of the bot configuration file, `chatbot.json`. This file stores information like your `app_id`, `user_key` and `botname`:
 
-```json
+```js
 {
   app_id: ********,
   user_key: *******,
@@ -73,7 +73,7 @@ The host field is optional, and will default to `aiaas.pandorabots.com`.
 
 - `pb pull`: download all files associated with a bot (unzipped, avoid using this with large bots)
 
-- `pb push`: upload all bot files in a given directory 
+- `pb push`: upload all bot files in the current directory 
 
 - `pb remove <file>`: delete a bot file from the server
 
@@ -93,5 +93,3 @@ $ pb talk --botname alice Hello!
 You can use the same technique to override other parameters, using flags like `--host`, `--app_id`, and `--user_key`.
 
 For a full list of available flags and their applications, access the help information by running `pb --help`.
-
-

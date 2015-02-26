@@ -278,7 +278,7 @@ if (program.args[0] === 'init') {
 	{message: 'user_key? (required)', name: 'user_key',
 	    required: true, validator: /^[0-9a-z]+$/,
 	    warning: 'user_key must consist of alphanumeric, lowercase characters'},
-	{message: 'botname? (recommended', name: 'botname'},
+	{message: 'botname? (recommended)', name: 'botname'},
 	{message: 'hostname? (optional)', name: 'hostname'}
     ];
     prompt.get(props, function (error, result) {

@@ -28,7 +28,10 @@
     "request": ">=2.51.0",
     "unzip": ">=0.1.11"
   },
-  "author": [
-    "yyconn <conn@conn.jp>"
+  "author": "yyconn <conn@conn.jp>",
+  "contributors": [
+    { "name": "Daniel Fried", "email": "daniel.fried@pandorabots.com" },
+    { "name": "Tina Coles", "email": "tina.coles@pandorabots.com" }
   ]
+    
 }

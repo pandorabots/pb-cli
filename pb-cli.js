@@ -271,16 +271,15 @@ if (program.all)
 
 // Initialize
 if (program.args[0] === 'init') {
-    console.log('Enter app_id (required), user_key (required), botname (recommended), hostname (optional).');
     var props = [
-	{message: 'app_id?', name: 'app_id',
-	    required: true, validator: /^[0-9]+$/,
-	    warning: 'app_id must consist of numeric characters'},
-	{message: 'user_key?', name: 'user_key',
-	    required: true, validator: /^[0-9a-f]+$/,
-	    warning: 'user_key must consist of numeric and/or a-f characters'},
-	{message: 'botname?', name: 'botname'},
-	{message: 'hostname?', name: 'hostname'}
+	{message: 'app_id? (required)', name: 'app_id',
+	    required: true, validator: /^[0-9a-z]+$/,
+	    warning: 'app_id must consist of alphanumeric, lowercase characters'},
+	{message: 'user_key? (required)', name: 'user_key',
+	    required: true, validator: /^[0-9a-z]+$/,
+	    warning: 'user_key must consist of alphanumeric, lowercase characters'},
+	{message: 'botname? (recommended', name: 'botname'},
+	{message: 'hostname? (optional)', name: 'hostname'}
     ];
     prompt.get(props, function (error, result) {
 	if (error) {

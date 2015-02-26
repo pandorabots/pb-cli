@@ -14,9 +14,11 @@ The CLI is available as a node.js module, via [npm](http://www.npmjs.org).
 $ npm install -g pb-cli
 ```
 
+You should now be able to run the CLI by typing either `pandorabots` or `pb` in the command line.
+
 ## Configuration
 
-The CLI introduces the concept of the bot configuration file, `pb.json`. This file stores information like your `app_id`, `user_key` and `botname`:
+The CLI introduces the concept of the bot configuration file, `chatbot.json`. This file stores information like your `app_id`, `user_key` and `botname`:
 
 ```json
 {
@@ -27,7 +29,7 @@ The CLI introduces the concept of the bot configuration file, `pb.json`. This fi
 }
 ```
 
-Running any of the commands from within a directory containing a `pb.json` file will automatically add your configured parameters to the API call:
+Running any of the commands from within a directory containing a `chatbot.json` file will automatically add your configured parameters to the API call:
 
 ```bash
 $ pb list
@@ -49,7 +51,7 @@ The host field is optional, and will default to `aiaas.pandorabots.com`.
 
 ### General
 
-- `pb init`: creates a configuration file (overwrites any existing `pb.json` files in the same directory)
+- `pb init`: creates a configuration file (overwrites any existing `chatbot.json` files in the same directory)
 
 - `pb list`: list all bots associated with a particular `app_id`
 
@@ -80,7 +82,7 @@ The host field is optional, and will default to `aiaas.pandorabots.com`.
 
 ## Flags
 
-You can add flags to certain commands to override information stored in `pb.json`. 
+You can add flags to certain commands to override information stored in `chatbot.json`. 
 
 For example, if I want to talk to a bot that has a different name than the one stored in the configuration file, we can override it by including the `--botname <botname>` flag:
 

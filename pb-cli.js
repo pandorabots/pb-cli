@@ -206,12 +206,7 @@ var conf_botname = function () {
     return botname;
 }
 
-prompt.message = "";
-prompt.delimiter = "";
-
-nconf.env();
-nconf.file({file: config});
-nconf.defaults({
+var options = {
     protocol: 'https',
     hostname: 'aiaas.pandorabots.com',
     app_id: undefined,
@@ -219,13 +214,20 @@ nconf.defaults({
     botname: undefined,
     client_name: undefined,
     sessionid: undefined,
-    all: undefined,
     extra: undefined,
     reset: undefined,
     trace: undefined,
     reload: undefined,
-    recent: undefined
-});
+    recent: undefined,
+    all: undefined
+}
+
+prompt.message = "";
+prompt.delimiter = "";
+
+nconf.env();
+nconf.file({file: config});
+nconf.defaults(options);
 
 program
     .version('0.0.1')
@@ -245,32 +247,10 @@ program
     .option('-a, --all', 'downloads all files')
     .parse(process.argv);
 
-if (program.protocol)
-    nconf.set('protocol', program.protocol);
-if (program.hostname)
-    nconf.set('hostname', program.hostname);
-if (program.app_id)
-    nconf.set('app_id', program.app_id);
-if (program.user_key)
-    nconf.set('user_key', program.user_key);
-if (program.botname)
-    nconf.set('botname', program.botname);
-if (program.client_name)
-    nconf.set('client_name', program.client_name);
-if (program.sessionid)
-    nconf.set('sessionid', program.sessionid);
-if (program.extra)
-    nconf.set('extra', program.extra);
-if (program.reset)
-    nconf.set('reset', program.reset);
-if (program.trace)
-    nconf.set('trace', program.trace);
-if (program.reload)
-    nconf.set('reload', program.reload);
-if (program.recent)
-    nconf.set('recent', program.recent);
-if (program.all)
-    nconf.set('all', program.all);
+for (var key in options) {
+    if (program[key])
+	nconf.set(key, program[key]);
+}
 
 // Initialize
 if (program.args[0] === 'init') {

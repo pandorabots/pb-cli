@@ -238,6 +238,7 @@ program
     .option('-c, --client_name <client_name>', 'name of client')
     .option('-s, --sessionid <sessionid>', 'session id of conversation')
     .option('-e, --extra', 'provides additional information with bot response')
+    .option('-M, --reset', 'reset the bot memory')
     .option('-t, --trace', 'adds trace data into response')
     .option('-r, --reload', 'force system to reload bot')
     .option('-R, --recent', 'use most recently compiled version of bot')
@@ -260,6 +261,8 @@ if (program.sessionid)
     nconf.set('sessionid', program.sessionid);
 if (program.extra)
     nconf.set('extra', program.extra);
+if (program.reset)
+    nconf.set('reset', program.reset);
 if (program.trace)
     nconf.set('trace', program.trace);
 if (program.reload)

@@ -122,6 +122,29 @@ var deleteResp = function (error, response, body) {
     }
 }
 
+var removeResp = function (error, response, body) {
+    var jObj = JSON.parse(body);
+    if (jObj.status === 'ok')
+	console.log(jObj.status)
+    else {
+	console.log("file not found");
+	var prop  = {
+	    message: 'Re-enter the name of file to remove:',
+	    name: 'filename',
+	    required: true
+	};
+	prompt.get(prop, function (error, result) {
+	    if (error) {
+		console.log("aborted.");
+		process.exit(2);
+	    }
+	    else {
+		request.del(fileUri(result.filename), removeResp);
+	    }
+	});
+    }
+}
+
 var listBotResp = function (error, response, body) {
     var jObj = JSON.parse(body);
     if (response.statusCode === 200) {
@@ -323,7 +346,7 @@ else if (program.args[0] === 'push') {
 // Remove a file
 else if (program.args[0] === 'remove') {
     if (program.args[1]) {
-	request.del(fileUri(program.args[1]), okResp);
+	request.del(fileUri(program.args[1]), removeResp);
     }
     else {
 	console.log('usage: remove <filename>');

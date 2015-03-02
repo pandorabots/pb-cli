@@ -15,33 +15,6 @@ var url = require('url');
 
 var config = 'chatbot.json';
 
-var retryOnFile = function (file, msg, cb) {
-    fs.exists(file, function (doesExist) {
-	if (doesExist)
-	    cb(file);
-	else {
-	    console.log('file not found');
-	    reenter(msg, cb);
-	}
-    });
-}
-
-var reenter = function (msg, cb) {
-    var prop  = {
-	message: msg,
-	name: 'input',
-	required: true
-    };
-    prompt.get(prop, function (error, result) {
-	if (error) {
-	    console.log("aborted.");
-	    process.exit(2);
-	}
-	else
-	    retryOnFile(result.input, msg, cb);
-    });
-}
-
 var sep = function (str) {
     return str ? '/' + str : '';
 }
@@ -147,6 +120,29 @@ var deleteResp = function (error, response, body) {
 	    }
 	});
     }
+}
+
+var retryOnFile = function (file, cb) {
+    fs.exists(file, function (doesExist) {
+	if (doesExist)
+	    cb(file);
+	else {
+	    console.log('file not found');
+	    var prop  = {
+		message: 'Re-enter the name of file to upload:',
+		name: 'input',
+		required: true
+	    };
+	    prompt.get(prop, function (error, result) {
+		if (error) {
+		    console.log("aborted.");
+		    process.exit(2);
+		}
+		else
+		    retryOnFile(result.input, cb);
+	    });
+	}
+    });
 }
 
 var removeResp = function (error, response, body) {
@@ -349,7 +345,7 @@ else if (program.args[0] === 'delete') {
 // Upload a file
 else if (program.args[0] === 'upload') {
     if (program.args[1]) {
-	retryOnFile(program.args[1], 'Re-enter the name of file to upload:', function (entry) {
+	retryOnFile(program.args[1], function (entry) {
 	    fs.createReadStream(entry).pipe(request.put(fileUri(entry), okResp));
 	});
     }

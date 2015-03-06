@@ -25,7 +25,7 @@ The CLI introduces the concept of the bot configuration file, `chatbot.json`. Th
   app_id: ********,
   user_key: *******,
   botname: ********,
-  host: ********
+  hostname: ********
 }
 ```
 

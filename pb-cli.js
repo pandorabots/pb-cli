@@ -172,6 +172,29 @@ var retryOnFile = function (file, cb) {
     });
 }
 
+var removePerf = function (filename) {
+    if (nconf.get('yes'))
+	request.del(fileUri(filename), removeResp);
+    else {
+	var prop  = {
+	    message: 'Are you sure you want to remove file "' + filename + '" (yes/no)?',
+	    name: 'resp', required: true, validator: /^(y|yes|n|no)$/i,
+	    warning: 'please answer yes or no.'
+	};
+	prompt.get(prop, function (error, result) {
+	    var yesRe = /^(y|yes)$/i;
+	    if (error) {
+		console.log("aborted.");
+		process.exit(2);
+	    }
+	    else if (yesRe.test(result.resp))
+		request.del(fileUri(filename), removeResp);
+	    else
+		console.log('skipped.');
+	});
+    }
+}
+
 var removeResp = function (error, response, body) {
     var jObj = JSON.parse(body);
     if (jObj.status === 'ok')
@@ -189,9 +212,8 @@ var removeResp = function (error, response, body) {
 		    console.log("aborted.");
 		    process.exit(2);
 		}
-		else {
-		    request.del(fileUri(result.filename), removeResp);
-		}
+		else
+		    removePerf(result.filename);
 	    });
 	}
     }
@@ -401,12 +423,10 @@ else if (program.args[0] === 'push') {
 
 // Remove a file
 else if (program.args[0] === 'remove') {
-    if (program.args[1]) {
-	request.del(fileUri(program.args[1]), removeResp);
-    }
-    else {
+    if (program.args[1])
+	removePerf(program.args[1]);
+    else
 	console.log('usage: remove <filename>');
-    }
 }
 
 // Download a file

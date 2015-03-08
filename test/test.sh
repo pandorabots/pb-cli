@@ -47,7 +47,7 @@ echo %% download file color.set
 cmd download color.set
 
 echo %% remove file color.set
-cmd remove color.set
+cmd remove color.set --yes
 
 echo %% list files of abcdefg
 cmd get
@@ -78,7 +78,7 @@ cmd talk my name?
 cmd talk air force blue
 
 echo %% delete bot abcdefg
-cmd delete
+cmd delete --yes
 
 exit 0
 

@@ -44,8 +44,8 @@ var listUri = function () {
     return url.format(uri);
 }
 
-var botUri = function () {
-    var uri = composeUri('bot', conf_botname(), '', '');
+var botUri = function (botname) {
+    var uri = composeUri('bot', botname, '', '');
     uri.query = composeParams({});
     return url.format(uri);
 }
@@ -116,7 +116,7 @@ var deleteResp = function (error, response, body) {
 	    }
 	    else {
 		nconf.set('botname', result.botname);
-		request.del(botUri(), deleteResp);
+		request.del(botUri(conf_botname()), deleteResp);
 	    }
 	});
     }
@@ -334,12 +334,12 @@ else if (program.args[0] === 'list') {
 
 // Create a bot
 else if (program.args[0] === 'create') {
-    request.put(botUri(), okResp);
+    request.put(botUri(conf_botname()), okResp);
 }
 
 // Delete a bot
 else if (program.args[0] === 'delete') {
-    request.del(botUri(), deleteResp);
+    request.del(botUri(conf_botname()), deleteResp);
 }
 
 // Upload a file
@@ -390,7 +390,7 @@ else if (program.args[0] === 'download') {
 
 // List files of bot
 else if (program.args[0] === 'get' && !program.all) {
-    request.get(botUri(), listFileResp);
+    request.get(botUri(conf_botname()), listFileResp);
 }
 
 // Retrieve all files as ZIP
@@ -402,7 +402,7 @@ else if (program.args[0] === 'get' && program.all) {
 else if (program.args[0] === 'pull') {
     //request.get(zipUri()).pipe(unzip.Extract({path: conf_botname()}));
     //it should work however gets freeze after zip have been downloaded; ugly workaround below
-    request.get(botUri(), pullResp);
+    request.get(botUri(conf_botname()), pullResp);
 }
 
 // Compile a bot

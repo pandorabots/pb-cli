@@ -98,27 +98,52 @@ var okResp = function (error, response, body) {
     }
 }
 
+var deletePerf = function (botname) {
+    if (nconf.get('yes')) {
+	console.log('deleting bot "' + botname + '"');
+	request.del(botUri(botname), deleteResp);
+    }
+    else {
+	var prop  = {
+	    message: 'Are you sure you want to delete bot "' + botname + '" (yes/no)?',
+	    name: 'resp', required: true, validator: /^(y|yes|n|no)$/i,
+	    warning: 'please answer yes or no.'
+	};
+	prompt.get(prop, function (error, result) {
+	    var yesRe = /^(y|yes)$/i;
+	    if (error) {
+		console.log("aborted.");
+		process.exit(2);
+	    }
+	    else if (yesRe.test(result.resp))
+		request.del(botUri(botname), deleteResp);
+	    else
+		console.log('skipped.');
+	});
+    }
+}
+
 var deleteResp = function (error, response, body) {
     var jObj = JSON.parse(body);
     if (jObj.status === 'ok')
 	console.log(jObj.status)
     else {
 	console.log(jObj.message);
-	var prop  = {
-	    message: 'Re-enter the name of the bot to delete:',
-	    name: 'botname',
-	    required: true
-	};
-	prompt.get(prop, function (error, result) {
-	    if (error) {
-		console.log("aborted.");
-		process.exit(2);
-	    }
-	    else {
-		nconf.set('botname', result.botname);
-		request.del(botUri(conf_botname()), deleteResp);
-	    }
-	});
+	if (!nconf.get('yes')) {
+	    var prop  = {
+		message: 'Re-enter the name of the bot to delete:',
+		name: 'botname',
+		required: true
+	    };
+	    prompt.get(prop, function (error, result) {
+		if (error) {
+		    console.log("aborted.");
+		    process.exit(2);
+		}
+		else
+		    deletePerf(result.botname);
+	    });
+	}
     }
 }
 
@@ -345,7 +370,7 @@ else if (program.args[0] === 'create') {
 
 // Delete a bot
 else if (program.args[0] === 'delete') {
-    request.del(botUri(conf_botname()), deleteResp);
+    deletePerf(conf_botname());
 }
 
 // Upload a file

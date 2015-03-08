@@ -128,19 +128,21 @@ var retryOnFile = function (file, cb) {
 	    cb(file);
 	else {
 	    console.log('file not found');
-	    var prop  = {
-		message: 'Re-enter the name of file to upload:',
-		name: 'input',
-		required: true
-	    };
-	    prompt.get(prop, function (error, result) {
-		if (error) {
-		    console.log("aborted.");
-		    process.exit(2);
-		}
-		else
-		    retryOnFile(result.input, cb);
-	    });
+	    if (!nconf.get('yes')) {
+		var prop  = {
+		    message: 'Re-enter the name of file to upload:',
+		    name: 'input',
+		    required: true
+		};
+		prompt.get(prop, function (error, result) {
+		    if (error) {
+			console.log("aborted.");
+			process.exit(2);
+		    }
+		    else
+			retryOnFile(result.input, cb);
+		});
+	    }
 	}
     });
 }
@@ -151,20 +153,22 @@ var removeResp = function (error, response, body) {
 	console.log(jObj.status)
     else {
 	console.log("file not found");
-	var prop  = {
-	    message: 'Re-enter the name of file to remove:',
-	    name: 'filename',
-	    required: true
-	};
-	prompt.get(prop, function (error, result) {
-	    if (error) {
-		console.log("aborted.");
-		process.exit(2);
-	    }
-	    else {
-		request.del(fileUri(result.filename), removeResp);
-	    }
-	});
+	if (!nconf.get('yes')) {
+	    var prop  = {
+		message: 'Re-enter the name of file to remove:',
+		name: 'filename',
+		required: true
+	    };
+	    prompt.get(prop, function (error, result) {
+		if (error) {
+		    console.log("aborted.");
+		    process.exit(2);
+		}
+		else {
+		    request.del(fileUri(result.filename), removeResp);
+		}
+	    });
+	}
     }
 }
 
@@ -265,7 +269,8 @@ var options = {
     trace: undefined,
     reload: undefined,
     recent: undefined,
-    all: undefined
+    all: undefined,
+    yes: undefined
 }
 
 prompt.message = "";
@@ -291,6 +296,7 @@ program
     .option('-r, --reload', 'force system to reload bot')
     .option('-R, --recent', 'use most recently compiled version of bot')
     .option('-a, --all', 'downloads all files')
+    .option('-y, --yes', 'do not prompt anything; assume yes to all yes/no queries')
     .parse(process.argv);
 
 for (var key in options) {

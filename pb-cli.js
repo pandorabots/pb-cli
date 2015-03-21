@@ -22,7 +22,8 @@ var sep = function (str) {
 var composeUri = function (mode, botname, kind, filename) {
     var uri = {
 	protocol: nconf.get('protocol'),
-	hostname: nconf.get('hostname')
+	hostname: nconf.get('hostname'),
+	port: nconf.get('port')
     }
     var path = mode;
     path += sep(conf_app_id());
@@ -306,6 +307,7 @@ var conf_botname = function () {
 var options = {
     protocol: 'https',
     hostname: 'aiaas.pandorabots.com',
+    port: undefined,
     app_id: undefined,
     user_key: undefined,
     botname: undefined,
@@ -332,6 +334,7 @@ program
     .usage('command [options] <file ...>')
     .option('-p, --protocol <protocol>', 'protocol')
     .option('-h, --hostname <hostname>', 'hostname')
+    .option('-P, --port <port>', 'port number')
     .option('-i, --app_id <app_id>', 'app_id')
     .option('-k, --user_key <user_key>', 'user_key')
     .option('-b, --botname <botname>', 'name of bot')

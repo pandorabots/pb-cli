@@ -24,7 +24,7 @@ var composeUri = function (mode, botname, kind, filename) {
 	protocol: nconf.get('protocol'),
 	hostname: nconf.get('hostname'),
 	port: nconf.get('port')
-    }
+    };
     var path = '';
     path += sep(nconf.get('prefix'));
     path += sep(mode);
@@ -98,11 +98,11 @@ var okResp = function (error, response, body) {
     else {
 	var jObj = JSON.parse(body);
 	if (jObj.status === 'ok')
-	    console.log(jObj.status)
+	    console.log(jObj.status);
 	else {
-	    console.log(jObj.message)
+	    console.log(jObj.message);
 	    if (jObj.results !== undefined)
-		console.log(JSON.stringify(jObj.results[0], null, 2))
+		console.log(JSON.stringify(jObj.results[0], null, 2));
 	}
     }
 }
@@ -140,7 +140,7 @@ var deleteResp = function (error, response, body) {
     else {
 	var jObj = JSON.parse(body);
 	if (jObj.status === 'ok')
-	    console.log(jObj.status)
+	    console.log(jObj.status);
 	else {
 	    console.log(jObj.message);
 	    if (!nconf.get('yes')) {
@@ -218,7 +218,7 @@ var removeResp = function (error, response, body) {
     else {
 	var jObj = JSON.parse(body);
 	if (jObj.status === 'ok')
-	    console.log(jObj.status)
+	    console.log(jObj.status);
 	else {
 	    console.log("file not found");
 	    if (!nconf.get('yes')) {
@@ -253,7 +253,7 @@ var listBotResp = function (error, response, body) {
 	    });
 	}
 	else
-	    console.log(jObj.message)
+	    console.log(jObj.message);
     }
 }
 
@@ -278,7 +278,7 @@ var listFileResp = function (error, response, body) {
 	if (response.statusCode === 200)
 	    fileList(jObj).forEach (function (file) { console.log(file); });
 	else
-	    console.log(jObj.message)
+	    console.log(jObj.message);
     }
 }
 
@@ -295,7 +295,7 @@ var pullResp = function (error, response, body) {
 	    });
 	}
 	else
-	    console.log(jObj.message)
+	    console.log(jObj.message);
     }
 }
 
@@ -317,7 +317,7 @@ var talkResp = function (error, response, body) {
 	    }
 	}
 	else
-	    console.log(jObj.message)
+	    console.log(jObj.message);
     }
 }
 
@@ -365,7 +365,7 @@ var options = {
     recent: undefined,
     all: undefined,
     yes: undefined
-}
+};
 
 prompt.message = "";
 prompt.delimiter = "";
@@ -420,9 +420,8 @@ if (program.args[0] === 'init') {
 	else {
 	    var prop = {};
 	    for (var key in result) {
-		if (result[key]) {
+		if (result[key])
 		    prop[key] = result[key];
-		}
 	    }
 	    fs.writeFileSync(config, JSON.stringify(prop, null, 4));
 	}
@@ -462,7 +461,7 @@ else if (program.args[0] === 'push') {
     if (files.length) {
 	files.forEach (function (entry) {
 	    console.log('uploading: ' + entry);
-	    fs.createReadStream(entry).pipe(request.put(fileUri(entry), okResp))
+	    fs.createReadStream(entry).pipe(request.put(fileUri(entry), okResp));
 	});
     }
     else {
@@ -523,9 +522,8 @@ else if (program.args[0] === 'talk') {
 	if (nconf.get('recent')) param.recent = true;
 	request.post(talkUri(), talkResp).form(composeParams(param));
     }
-    else {
+    else
 	console.log('usage: talk <text...>');
-    }
 }
 
 else if (program.args[0] === undefined)

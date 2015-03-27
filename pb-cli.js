@@ -25,7 +25,9 @@ var composeUri = function (mode, botname, kind, filename) {
 	hostname: nconf.get('hostname'),
 	port: nconf.get('port')
     }
-    var path = mode;
+    var path = '';
+    path += sep(nconf.get('prefix'));
+    path += sep(mode);
     path += sep(conf_app_id());
     path += sep(botname);
     path += sep(kind);
@@ -308,6 +310,7 @@ var options = {
     protocol: 'https',
     hostname: 'aiaas.pandorabots.com',
     port: undefined,
+    prefix: undefined,
     app_id: undefined,
     user_key: undefined,
     botname: undefined,
@@ -335,6 +338,7 @@ program
     .option('-p, --protocol <protocol>', 'protocol')
     .option('-h, --hostname <hostname>', 'hostname')
     .option('-P, --port <port>', 'port number')
+    .option('-X, --prefix <prefix>', 'prefix path of URL')
     .option('-i, --app_id <app_id>', 'app_id')
     .option('-k, --user_key <user_key>', 'user_key')
     .option('-b, --botname <botname>', 'name of bot')

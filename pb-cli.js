@@ -520,7 +520,7 @@ else if (program.args[0] === 'talk') {
 	if (nconf.get('trace')) param.trace = true;
 	if (nconf.get('reload')) param.reload = true;
 	if (nconf.get('recent')) param.recent = true;
-	request.post(talkUri(), talkResp).form(composeParams(param));
+	request.post({url: talkUri(), form: composeParams(param)}, talkResp);
     }
     else
 	console.log('usage: talk <text...>');

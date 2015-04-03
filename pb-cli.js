@@ -308,8 +308,8 @@ var talkResp = function (error, response, body) {
 	var jObj = JSON.parse(body);
 	if (jObj.status === 'ok') {
 	    nconf.set('sessionid', jObj.sessionid);
-	    if (nconf.get('extra') || nconf.get('trace')) 
-		console.log(jObj);
+	    if (nconf.get('extra') || nconf.get('trace'))
+		console.log(JSON.stringify(jObj, null, 2));
 	    else {
 		jObj.responses.forEach (function (entry) {
 		    console.log(entry);

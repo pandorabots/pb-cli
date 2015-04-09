@@ -308,8 +308,20 @@ var talkResp = function (error, response, body) {
 	var jObj = JSON.parse(body);
 	if (jObj.status === 'ok') {
 	    nconf.set('sessionid', jObj.sessionid);
-	    if (nconf.get('extra') || nconf.get('trace'))
+	    if (nconf.get('extra')) {
+		jObj.templates = jObj.templates.map (function (str) {
+		    return str.replace(/\n/g, '');
+		});
 		console.log(JSON.stringify(jObj, null, 2));
+	    }
+	    else if (nconf.get('trace')) {
+		jObj.trace = jObj.trace.map (function (obj) {
+		    if (obj.template)
+			obj.template = obj.template.replace(/\n/g, '');
+		    return obj;
+		});
+		console.log(JSON.stringify(jObj, null, 2));
+	    }
 	    else {
 		jObj.responses.forEach (function (entry) {
 		    console.log(entry);

@@ -300,10 +300,10 @@ var pullResp = function (error, response, body) {
 }
 
 var mapAll = function (jObj, func) {
-    for (var i in jObj) {
-	jObj[i] = func.call(this, jObj[i]);
-	if (jObj[i] !== null && typeof (jObj[i]) == 'object')
-	    jObj[i] = mapAll(jObj[i], func);
+    for (var key in jObj) {
+	jObj[key] = func.call(this, jObj[key]);
+	if (jObj[key] !== null && typeof (jObj[key]) == 'object')
+	    jObj[key] = mapAll(jObj[key], func);
     }
     return jObj;
 }

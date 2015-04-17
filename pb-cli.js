@@ -473,7 +473,11 @@ else if (program.args[0] === 'upload') {
 
 // Upload all files at once
 else if (program.args[0] === 'push') {
-    var files = glob.sync('*.{pdefaults,properties,map,set,substitution,aiml}', {});
+    var dirpath = '*.{pdefaults,properties,map,set,substitution,aiml}';
+    if (program.args[1]) {
+        dirpath = path.join(program.args[1], dirpath); 
+    }
+    var files = glob.sync(dirpath, {});
     if (files.length) {
 	files.forEach (function (entry) {
 	    console.log('uploading: ' + entry);

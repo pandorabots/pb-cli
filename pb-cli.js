@@ -12,6 +12,9 @@ var qs = require('querystring');
 var request = require('request');
 var unzip = require('unzip');
 var url = require('url');
+var Filequeue = require('filequeue');
+
+var fq = new Filequeue(500);
 
 var config = 'chatbot.json';
 
@@ -481,7 +484,8 @@ else if (program.args[0] === 'push') {
     if (files.length) {
 	files.forEach (function (entry) {
 	    console.log('uploading: ' + entry);
-	    fs.createReadStream(entry).pipe(request.put(fileUri(entry), okResp));
+	    fq.createReadStream(entry).pipe(request.put(fileUri(entry), okResp));
+            
 	});
     }
     else {

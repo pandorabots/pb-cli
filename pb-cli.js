@@ -12,7 +12,7 @@ var qs = require('querystring');
 var request = require('request');
 var unzip = require('unzip');
 var url = require('url');
-var Filequeue = require('fq');
+var Filequeue = require('filequeue');
 
 var fq = new Filequeue(500);
 

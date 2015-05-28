@@ -351,7 +351,7 @@ var chatResp = function(error, response, body) {
 	if (jObj.status === 'ok') {
 	    nconf.set('sessionid', jObj.sessionid);
 	    jObj.responses.forEach (function (entry) {
-	        console.log('bot> ' + entry);
+	        console.log(conf_botname() + '> ' + entry);
 	    });
 	}
 	else console.log(jObj.message);
@@ -571,14 +571,20 @@ else if (program.args[0] === 'talk') {
 
 // Chat mode
 else if (program.args[0] === 'chat') {
-    console.log('Entering pb-cli chat mode');
-    var rl = readline.createInterface({input: process.stdin, output: process.stdout});
+    console.log('Entering chat with ' + conf_botname());
+    console.log('Press Control-C at any time to exit');
+    var rl = readline.createInterface({
+        input: process.stdin, 
+        output: process.stdout
+    });
     rl.setPrompt('user> ');
     rl.prompt();
     rl.on('line', function(cmd) {
         var param = {input: cmd};
-        if (nconf.get('client_name')) param.client_name = nconf.get('client_name');
-        if (nconf.get('sessionid')) param.session3id = nconf.get('sessionid');
+        if (nconf.get('client_name')) 
+            param.client_name = nconf.get('client_name');
+        if (nconf.get('sessionid')) 
+            param.session3id = nconf.get('sessionid');
         request.post({url: talkUri(), form: composeParams(param)}, chatResp);
     });
 }

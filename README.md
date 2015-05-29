@@ -73,6 +73,8 @@ $ ./test.sh
 
 - `pb talk <input>`: send a message to a bot and print the response
 
+- `pb chat`: enter a REPL-stype chat mode with a bot (added in version 1.0.3)
+
 ### File management
 
 - `pb download <file>`: download a particular file from the server

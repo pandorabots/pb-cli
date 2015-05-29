@@ -3,6 +3,7 @@
 'use strict';
 
 var fs = require('fs');
+var readline = require('readline');
 var glob = require('glob');
 var nconf = require('nconf');
 var path = require('path');
@@ -340,6 +341,24 @@ var talkResp = function (error, response, body) {
     }
 }
 
+var chatResp = function(error, response, body) {
+    if (!response)
+        console.log(error);
+    else if (response.statusCode >= 400)
+	console.log(body);
+    else {
+	var jObj = JSON.parse(body);
+	if (jObj.status === 'ok') {
+	    nconf.set('sessionid', jObj.sessionid);
+	    jObj.responses.forEach (function (entry) {
+	        console.log(conf_botname() + '> ' + entry);
+	    });
+	}
+	else console.log(jObj.message);
+    }
+    rl.prompt();
+}
+
 var conf_app_id = function () {
     var app_id = nconf.get('app_id');
     if (app_id === undefined) {
@@ -548,6 +567,26 @@ else if (program.args[0] === 'talk') {
     }
     else
 	console.log('usage: talk <text...>');
+}
+
+// Chat mode
+else if (program.args[0] === 'chat') {
+    console.log('Entering chat with ' + conf_botname());
+    console.log('Press Control-C at any time to exit');
+    var rl = readline.createInterface({
+        input: process.stdin, 
+        output: process.stdout
+    });
+    rl.setPrompt('user> ');
+    rl.prompt();
+    rl.on('line', function(cmd) {
+        var param = {input: cmd};
+        if (nconf.get('client_name')) 
+            param.client_name = nconf.get('client_name');
+        if (nconf.get('sessionid')) 
+            param.session3id = nconf.get('sessionid');
+        request.post({url: talkUri(), form: composeParams(param)}, chatResp);
+    });
 }
 
 else if (program.args[0] === undefined)

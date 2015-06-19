@@ -584,7 +584,7 @@ else if (program.args[0] === 'chat') {
         if (nconf.get('client_name')) 
             param.client_name = nconf.get('client_name');
         if (nconf.get('sessionid')) 
-            param.session3id = nconf.get('sessionid');
+            param.sessionid = nconf.get('sessionid');
         request.post({url: talkUri(), form: composeParams(param)}, chatResp);
     });
 }

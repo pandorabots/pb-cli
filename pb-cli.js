@@ -14,6 +14,7 @@ var unzip = require('unzip');
 var url = require('url');
 
 var config = 'chatbot.json';
+var state = 'state.json'
 
 var sep = function (str) {
     return str ? '/' + str : '';
@@ -87,6 +88,11 @@ var verifyUri = function () {
 
 var talkUri = function () {
     var uri = composeUri('talk', conf_botname(), '', '');
+    return url.format(uri);
+}
+
+var aTalkUri = function () {
+    var uri = composeUri('atalk', conf_botname(), '', '');
     return url.format(uri);
 }
 
@@ -323,7 +329,6 @@ var talkResp = function (error, response, body) {
     else {
 	var jObj = JSON.parse(body);
 	if (jObj.status === 'ok') {
-	    nconf.set('sessionid', jObj.sessionid);
 	    if (nconf.get('extra') || nconf.get('trace'))
 		console.log(JSON.stringify(mapAll(jObj, removeNewLine), null, 2));
 	    else {
@@ -331,6 +336,11 @@ var talkResp = function (error, response, body) {
 		    console.log(entry);
 		});
 	    }
+	    var prop = {};
+	    if (jObj.client_name) prop.client_name = jObj.client_name
+	    else if (nconf.get('client_name')) prop.client_name = nconf.get('client_name');
+	    if (jObj.sessionid) prop.sessionid = jObj.sessionid;
+	    fs.writeFileSync(state, JSON.stringify(prop, null, 4));
 	}
 	else
 	    console.log(jObj.message);
@@ -387,7 +397,8 @@ prompt.message = "";
 prompt.delimiter = "";
 
 nconf.env();
-nconf.file({file: config});
+nconf.file('state', {file: state});
+nconf.file('config', {file: config});
 nconf.defaults(options);
 
 program
@@ -540,6 +551,23 @@ else if (program.args[0] === 'talk') {
     }
     else
 	console.log('usage: talk <text...>');
+}
+
+// Anonymous Talk to a bot
+else if (program.args[0] === 'atalk') {
+    if (program.args[1]) {
+	var param = {input: program.args.slice(1).join(' ')};
+	if (nconf.get('client_name')) param.client_name = nconf.get('client_name');
+	if (nconf.get('sessionid')) param.sessionid = nconf.get('sessionid');
+	if (nconf.get('extra')) param.extra = true;
+	if (nconf.get('reset')) param.reset = true;
+	if (nconf.get('trace')) param.trace = true;
+	if (nconf.get('reload')) param.reload = true;
+	if (nconf.get('recent')) param.recent = true;
+	request.post({url: aTalkUri(), form: composeParams(param)}, talkResp);
+    }
+    else
+	console.log('usage: atalk <text...>');
 }
 
 else if (program.args[0] === undefined)

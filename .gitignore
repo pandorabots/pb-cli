@@ -29,6 +29,7 @@ node_modules
 
 # chatbot.json
 chatbot.json*
+state.json*
 test/chatbot.json
 
 # zip

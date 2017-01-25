@@ -100,6 +100,6 @@ For example, if I want to talk to a bot that has a different name than the one s
 $ pb talk --botname alice Hello!
 ```
 
-You can use the same technique to override other parameters, using flags like `--hostnme`, `--app_id`, and `--user_key`.
+You can use the same technique to override other parameters, using flags like `--hostname`, `--app_id`, and `--user_key`.
 
 For a full list of available flags and their applications, access the help information by running `pb --help`.

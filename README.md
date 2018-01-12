@@ -77,7 +77,7 @@ $ ./test.sh
 
 ### File management
 
-- `pb download <file>`: download a particular file from the server
+- `pb download <file> <path>`: download a particular file from the server, saving it at the specified path. Path can be absolute or relative to the current directory. Omitting the path will save the file to the current directory.
 
 - `pb get`: list all files associated with a bot (use `--all` to download all files as a .zip)
 

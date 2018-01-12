@@ -286,6 +286,10 @@ var listFileResp = function (error, response, body) {
     }
 }
 
+var downloadBotFile = function (fileName, outputPath) {
+  request.get(fileUri(fileName)).pipe(fs.createWriteStream(path.join(outputPath, fileName)));;
+}
+
 var pullBotFiles = function (filePath) {
   var pullResp = function (error, response, body) {
       if (!response)
@@ -525,7 +529,9 @@ else if (program.args[0] === 'remove') {
 // Download a file
 else if (program.args[0] === 'download') {
     if (program.args[1]) {
-	request.get(fileUri(program.args[1])).pipe(fs.createWriteStream(program.args[1]));;
+      var fileName = program.args[1]
+      var outputPath = program.args[2] || process.cwd()
+      downloadBotFile(fileName, outputPath)
     }
     else {
 	console.log('usage: download <filename>');

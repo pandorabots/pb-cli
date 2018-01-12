@@ -81,7 +81,7 @@ $ ./test.sh
 
 - `pb get`: list all files associated with a bot (use `--all` to download all files as a .zip)
 
-- `pb pull`: download all files associated with a bot (unzipped, avoid using this with large bots)
+- `pb pull <path>`: download all files associated with a bot (unzipped, avoid using this with large bots), saving them to the specified path. Path can be absolute or relative to the current directory. Omitting the path will save bot files to the current directory.
 
 - `pb push <path>`: upload all bot files given the path to a directory. Path can be absolute, or relative to where the `chatbot.json` file is stored. Omitting the path will push all bot files in the current directory.
 

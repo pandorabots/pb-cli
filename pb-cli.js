@@ -286,21 +286,24 @@ var listFileResp = function (error, response, body) {
     }
 }
 
-var pullResp = function (error, response, body) {
-    if (!response)
-	console.log(error);
-    else if (response.statusCode >= 400)
-	console.log(body);
-    else {
-	var jObj = JSON.parse(body);
-	if (response.statusCode === 200) {
-	    fileList(jObj).forEach (function (file) {
-		request.get(fileUri(file)).pipe(fs.createWriteStream(file));
-	    });
-	}
-	else
-	    console.log(jObj.message);
-    }
+var pullBotFiles = function (filePath) {
+  var pullResp = function (error, response, body) {
+      if (!response)
+  	console.log(error);
+      else if (response.statusCode >= 400)
+  	console.log(body);
+      else {
+  	var jObj = JSON.parse(body);
+  	if (response.statusCode === 200) {
+  	    fileList(jObj).forEach (function (file) {
+  		request.get(fileUri(file)).pipe(fs.createWriteStream(path.join(filePath, file)));
+  	    });
+  	}
+  	else
+  	    console.log(jObj.message);
+      }
+  }
+  request.get({url: botUri(conf_botname()), headers: {'Connection': 'keep-alive'}}, pullResp);
 }
 
 var mapAll = function (jObj, func) {
@@ -543,7 +546,8 @@ else if (program.args[0] === 'get' && program.all) {
 else if (program.args[0] === 'pull') {
     //request.get(zipUri()).pipe(unzip.Extract({path: conf_botname()}));
     //it should work however gets freeze after zip have been downloaded; ugly workaround below
-    request.get(botUri(conf_botname()), pullResp);
+    var outputPath = program.args[1] || process.cwd()
+    pullBotFiles(outputPath)
 }
 
 // Compile a bot

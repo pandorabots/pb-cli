@@ -497,14 +497,13 @@ else if (program.args[0] === 'upload') {
 else if (program.args[0] === 'push') {
     var dirpath = '*.{pdefaults,properties,map,set,substitution,aiml}';
     if (program.args[1]) {
-        dirpath = path.join(program.args[1], dirpath); 
+        dirpath = path.join(program.args[1], '**', dirpath);
     }
-    var files = glob.sync(dirpath, {});
+    var files = glob.sync(dirpath, {matchBase: true});
     if (files.length) {
 	files.forEach (function (entry) {
 	    console.log('uploading: ' + entry);
 	    fq.createReadStream(entry).pipe(request.put(fileUri(entry), okResp));
-            
 	});
     }
     else {
@@ -574,16 +573,16 @@ else if (program.args[0] === 'chat') {
     console.log('Entering chat with ' + conf_botname());
     console.log('Press Control-C at any time to exit');
     var rl = readline.createInterface({
-        input: process.stdin, 
+        input: process.stdin,
         output: process.stdout
     });
     rl.setPrompt('user> ');
     rl.prompt();
     rl.on('line', function(cmd) {
         var param = {input: cmd};
-        if (nconf.get('client_name')) 
+        if (nconf.get('client_name'))
             param.client_name = nconf.get('client_name');
-        if (nconf.get('sessionid')) 
+        if (nconf.get('sessionid'))
             param.sessionid = nconf.get('sessionid');
         request.post({url: talkUri(), form: composeParams(param)}, chatResp);
     });
@@ -595,4 +594,3 @@ else {
     console.log('invalid command: ' + program.args[0]);
     process.exit(1);
 }
-

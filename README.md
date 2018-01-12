@@ -1,6 +1,6 @@
 # Pandorabots CLI
 
-The Pandorabots CLI allows you to manage and interact with your AIaaS applications straight from the command line. 
+The Pandorabots CLI allows you to manage and interact with your AIaaS applications straight from the command line.
 
 Please read the [documentation](http://developer.pandorabots.com/docs) for further information regarding naming conventions and file types.
 
@@ -83,7 +83,7 @@ $ ./test.sh
 
 - `pb pull`: download all files associated with a bot (unzipped, avoid using this with large bots)
 
-- `pb push <path>`: upload all bot files given the path to a directory. Path is can be absolute, or relative to where the `chatbot.json` file is stored. Omitting the path will push all bot files in the current directory.
+- `pb push <path>`: upload all bot files given the path to a directory. Path can be absolute, or relative to where the `chatbot.json` file is stored. Omitting the path will push all bot files in the current directory.
 
 - `pb remove <file>`: delete a bot file from the server
 
@@ -92,7 +92,7 @@ $ ./test.sh
 
 ## Flags
 
-You can add flags to certain commands to override information stored in `chatbot.json`. 
+You can add flags to certain commands to override information stored in `chatbot.json`.
 
 For example, if I want to talk to a bot that has a different name than the one stored in the configuration file, we can override it by including the `--botname <botname>` flag:
 

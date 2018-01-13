@@ -94,6 +94,11 @@ var talkUri = function () {
     return url.format(uri);
 }
 
+var atalkUri = function () {
+    var uri = composeUri('atalk', conf_botname(), '', '');
+    return url.format(uri);
+}
+
 var okResp = function (error, response, body) {
     if (!response)
 	console.log(error);
@@ -334,6 +339,10 @@ var talkResp = function (error, response, body) {
     else {
 	var jObj = JSON.parse(body);
 	if (jObj.status === 'ok') {
+      if(jObj.client_name && jObj.client_name != nconf.get('client_name')) {
+        nconf.set('client_name', jObj.client_name)
+        console.log(`atalk: client_name was set to ${jObj.client_name}`)
+      }
 	    nconf.set('sessionid', jObj.sessionid);
 	    if (nconf.get('extra') || nconf.get('trace'))
 		console.log(JSON.stringify(mapAll(jObj, removeNewLine), null, 2));
@@ -356,6 +365,9 @@ var chatResp = function(error, response, body) {
     else {
 	var jObj = JSON.parse(body);
 	if (jObj.status === 'ok') {
+      if(jObj.client_name && jObj.client_name != nconf.get('client_name')) {
+        nconf.set('client_name', jObj.client_name)
+      }
 	    nconf.set('sessionid', jObj.sessionid);
 	    jObj.responses.forEach (function (entry) {
 	        console.log(conf_botname() + '> ' + entry);
@@ -578,6 +590,19 @@ else if (program.args[0] === 'talk') {
 	console.log('usage: talk <text...>');
 }
 
+// Atalk to a bot
+else if (program.args[0] === 'atalk') {
+    if (program.args[1]) {
+	var param = {input: program.args.slice(1).join(' ')};
+	if (nconf.get('client_name')) param.client_name = nconf.get('client_name');
+	if (nconf.get('sessionid')) param.sessionid = nconf.get('sessionid');
+	if (nconf.get('recent')) param.recent = true;
+	request.post({url: atalkUri(), form: composeParams(param)}, talkResp);
+    }
+    else
+	console.log('usage: atalk <text...>');
+}
+
 // Chat mode
 else if (program.args[0] === 'chat') {
     console.log('Entering chat with ' + conf_botname());
@@ -595,6 +620,26 @@ else if (program.args[0] === 'chat') {
         if (nconf.get('sessionid'))
             param.sessionid = nconf.get('sessionid');
         request.post({url: talkUri(), form: composeParams(param)}, chatResp);
+    });
+}
+
+// Achat mode
+else if (program.args[0] === 'achat') {
+    console.log('Entering achat with ' + conf_botname());
+    console.log('Press Control-C at any time to exit');
+    var rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout
+    });
+    rl.setPrompt('user> ');
+    rl.prompt();
+    rl.on('line', function(cmd) {
+        var param = {input: cmd};
+        if (nconf.get('client_name'))
+            param.client_name = nconf.get('client_name');
+        if (nconf.get('sessionid'))
+            param.sessionid = nconf.get('sessionid');
+        request.post({url: atalkUri(), form: composeParams(param)}, chatResp);
     });
 }
 

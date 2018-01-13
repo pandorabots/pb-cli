@@ -73,7 +73,7 @@ $ ./test.sh
 
 - `pb talk <input>`: send a message to a bot and print the response
 
-- `pb atalk <input>`: send a message to a bot using atalk and print the generated client_name as well as the response (added in version 1.1.0)
+- `pb atalk <input>`: send a message to a bot using atalk and print the generated client_name, as well as the response (added in version 1.1.0)
 
 - `pb chat`: enter a REPL-style chat mode with a bot (added in version 1.0.3)
 

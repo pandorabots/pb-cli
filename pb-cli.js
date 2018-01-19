@@ -18,6 +18,7 @@ var Filequeue = require('filequeue');
 var fq = new Filequeue(500);
 
 var config = 'chatbot.json';
+var errors = require('./errors.js')
 
 var sep = function (str) {
     return str ? '/' + str : '';
@@ -99,21 +100,55 @@ var atalkUri = function () {
     return url.format(uri);
 }
 
-var okResp = function (error, response, body) {
-    if (!response)
-	console.log(error);
-    else if (response.statusCode >= 400)
-	console.log(body);
+var fileResp = function (error, response, body) {
+  if (!response)
+    console.log(error);
+  else if (response.statusCode >= 400)
+    errors.files(response.statusCode)
+  else {
+    var jObj = JSON.parse(body);
+    if (jObj.status === 'ok')
+        console.log(jObj.status);
     else {
-	var jObj = JSON.parse(body);
-	if (jObj.status === 'ok')
-	    console.log(jObj.status);
-	else {
-	    console.log(jObj.message);
-	    if (jObj.results !== undefined)
-		console.log(JSON.stringify(jObj.results[0], null, 2));
-	}
+        console.log(jObj.message);
+        if (jObj.results !== undefined)
+      console.log(JSON.stringify(jObj.results[0], null, 2));
     }
+  }
+}
+
+var botResp = function (error, response, body) {
+  if (!response)
+    console.log(error);
+  else if (response.statusCode >= 400)
+    errors.bots(response.statusCode)
+  else {
+    var jObj = JSON.parse(body);
+    if (jObj.status === 'ok')
+        console.log(jObj.status);
+    else {
+        console.log(jObj.message);
+        if (jObj.results !== undefined)
+      console.log(JSON.stringify(jObj.results[0], null, 2));
+    }
+  }
+}
+
+var verifyResp = function (error, response, body) {
+  if (!response)
+    console.log(error);
+  else if (response.statusCode >= 400)
+    errors.verify(response.statusCode)
+  else {
+    var jObj = JSON.parse(body);
+    if (jObj.status === 'ok')
+        console.log(jObj.status);
+    else {
+        console.log(jObj.message);
+        if (jObj.results !== undefined)
+      console.log(JSON.stringify(jObj.results[0], null, 2));
+    }
+  }
 }
 
 var deletePerf = function (botname) {
@@ -143,31 +178,31 @@ var deletePerf = function (botname) {
 
 var deleteResp = function (error, response, body) {
     if (!response)
-	console.log(error);
+	   console.log(error);
     else if (response.statusCode >= 400)
-	console.log(body);
+      errors.bots(response.statusCode)
     else {
-	var jObj = JSON.parse(body);
-	if (jObj.status === 'ok')
-	    console.log(jObj.status);
-	else {
-	    console.log(jObj.message);
-	    if (!nconf.get('yes')) {
-		var prop  = {
-		    message: 'Re-enter the name of the bot to delete:',
-		    name: 'botname',
-		    required: true
-		};
-		prompt.get(prop, function (error, result) {
-		    if (error) {
-			console.log("aborted.");
-			process.exit(2);
-		    }
-		    else
-			deletePerf(result.botname);
-		});
-	    }
-	}
+    	var jObj = JSON.parse(body);
+    	if (jObj.status === 'ok')
+    	    console.log(jObj.status);
+    	else {
+    	    console.log(jObj.message);
+    	    if (!nconf.get('yes')) {
+        		var prop  = {
+        		    message: 'Re-enter the name of the bot to delete:',
+        		    name: 'botname',
+        		    required: true
+        		};
+        		prompt.get(prop, function (error, result) {
+        		    if (error) {
+        			console.log("aborted.");
+        			process.exit(2);
+        		    }
+        		    else
+        			deletePerf(result.botname);
+        		});
+    	    }
+    	}
     }
 }
 
@@ -221,9 +256,9 @@ var removePerf = function (filename) {
 
 var removeResp = function (error, response, body) {
     if (!response)
-	console.log(error);
+	   console.log(error);
     else if (response.statusCode >= 400)
-	console.log(body);
+	   errors.files(response.statusCode)
     else {
 	var jObj = JSON.parse(body);
 	if (jObj.status === 'ok')
@@ -251,18 +286,18 @@ var removeResp = function (error, response, body) {
 
 var listBotResp = function (error, response, body) {
     if (!response)
-	console.log(error);
+    	console.log(error);
     else if (response.statusCode >= 400)
-	console.log(body);
+      errors.bots(response.statusCode)
     else {
-	var jObj = JSON.parse(body);
-	if (response.statusCode === 200) {
-	    jObj.forEach (function (entry) {
-		console.log(entry.botname);
-	    });
-	}
-	else
-	    console.log(jObj.message);
+    	var jObj = JSON.parse(body);
+    	if (response.statusCode === 200) {
+    	    jObj.forEach (function (entry) {
+        		console.log(entry.botname);
+    	    });
+    	}
+    	else
+    	    console.log(jObj.message);
     }
 }
 
@@ -279,37 +314,53 @@ var fileList = function (jObj) {
 
 var listFileResp = function (error, response, body) {
     if (!response)
-	console.log(error);
+	    console.log(error);
     else if (response.statusCode >= 400)
-	console.log(body);
+	    errors.bots(response.statusCode)
     else {
-	var jObj = JSON.parse(body);
-	if (response.statusCode === 200)
-	    fileList(jObj).forEach (function (file) { console.log(file); });
-	else
-	    console.log(jObj.message);
+    	var jObj = JSON.parse(body);
+    	if (response.statusCode === 200)
+    	    fileList(jObj).forEach (function (file) { console.log(file); });
+    	else
+    	    console.log(jObj.message);
     }
 }
 
 var downloadBotFile = function (fileName, outputPath) {
-  request.get(fileUri(fileName)).pipe(fs.createWriteStream(path.join(outputPath, fileName)));;
+  var onResp = function(error, response, body) {
+    if (!response)
+      console.log(error)
+    else if(response.statusCode >= 400)
+      errors.files(response.statusCode)
+    else {
+      var jObj = JSON.parse(body);
+      if (response.statusCode === 200) {
+        const stream = fs.createWriteStream(path.join(outputPath, fileName))
+        stream.write(body, 'utf8')
+      }
+      else
+          console.log(jObj.message);
+    }
+  }
+
+  request.get(fileUri(fileName), onResp);
 }
 
 var pullBotFiles = function (filePath) {
   var pullResp = function (error, response, body) {
       if (!response)
-  	console.log(error);
+  	   console.log(error);
       else if (response.statusCode >= 400)
-  	console.log(body);
+  	   errors.files(response.statusCode)
       else {
-  	var jObj = JSON.parse(body);
-  	if (response.statusCode === 200) {
-  	    fileList(jObj).forEach (function (file) {
-  		request.get(fileUri(file)).pipe(fs.createWriteStream(path.join(filePath, file)));
-  	    });
-  	}
-  	else
-  	    console.log(jObj.message);
+      	var jObj = JSON.parse(body);
+      	if (response.statusCode === 200) {
+      	    fileList(jObj).forEach (function (file) {
+      		request.get(fileUri(file)).pipe(fs.createWriteStream(path.join(filePath, file)));
+      	    });
+      	}
+      	else
+      	    console.log(jObj.message);
       }
   }
   request.get({url: botUri(conf_botname()), headers: {'Connection': 'keep-alive'}}, pullResp);
@@ -333,35 +384,35 @@ var removeNewLine = function (obj) {
 
 var talkResp = function (error, response, body) {
     if (!response)
-	console.log(error);
+      console.log(error);
     else if (response.statusCode >= 400)
-	console.log(body);
+      errors.talk(response.statusCode)
     else {
-	var jObj = JSON.parse(body);
-	if (jObj.status === 'ok') {
-      if(jObj.client_name && jObj.client_name != nconf.get('client_name')) {
-        nconf.set('client_name', jObj.client_name)
-        console.log(`atalk: client_name was set to ${jObj.client_name}`)
-      }
-	    nconf.set('sessionid', jObj.sessionid);
-	    if (nconf.get('extra') || nconf.get('trace'))
-		console.log(JSON.stringify(mapAll(jObj, removeNewLine), null, 2));
-	    else {
-		jObj.responses.forEach (function (entry) {
-		    console.log(entry);
-		});
-	    }
-	}
-	else
-	    console.log(jObj.message);
+    	var jObj = JSON.parse(body);
+    	if (jObj.status === 'ok') {
+          if(jObj.client_name && jObj.client_name != nconf.get('client_name')) {
+            nconf.set('client_name', jObj.client_name)
+            console.log(`atalk: client_name was set to ${jObj.client_name}`)
+          }
+    	    nconf.set('sessionid', jObj.sessionid);
+    	    if (nconf.get('extra') || nconf.get('trace'))
+    		    console.log(JSON.stringify(mapAll(jObj, removeNewLine), null, 2));
+    	    else {
+        		jObj.responses.forEach (function (entry) {
+        		    console.log(entry);
+        		});
+	        }
+	     }
+	     else
+	       console.log(jObj.message);
     }
 }
 
 var chatResp = function(error, response, body) {
     if (!response)
-        console.log(error);
+      console.log(error);
     else if (response.statusCode >= 400)
-	console.log(body);
+      errors.talk(response.statusCode)
     else {
 	var jObj = JSON.parse(body);
 	if (jObj.status === 'ok') {
@@ -432,7 +483,7 @@ nconf.file({file: config});
 nconf.defaults(options);
 
 program
-    .version('1.1.0')
+    .version('1.1.1')
     .usage('command [options] <file ...>')
     .on('--help', function() {
       console.log('\n   General Commands:\n')
@@ -513,7 +564,7 @@ else if (program.args[0] === 'list') {
 
 // Create a bot
 else if (program.args[0] === 'create') {
-    request.put(botUri(conf_botname()), okResp);
+    request.put(botUri(conf_botname()), botResp);
 }
 
 // Delete a bot
@@ -525,7 +576,7 @@ else if (program.args[0] === 'delete') {
 else if (program.args[0] === 'upload') {
     if (program.args[1]) {
 	retryOnFile(program.args[1], function (entry) {
-	    fs.createReadStream(entry).pipe(request.put(fileUri(entry), okResp));
+	    fs.createReadStream(entry).pipe(request.put(fileUri(entry), fileResp));
 	});
     }
     else {
@@ -543,7 +594,7 @@ else if (program.args[0] === 'push') {
     if (files.length) {
 	files.forEach (function (entry) {
 	    console.log('uploading: ' + entry);
-	    fq.createReadStream(entry).pipe(request.put(fileUri(entry), okResp));
+	    fq.createReadStream(entry).pipe(request.put(fileUri(entry), fileResp));
 	});
     }
     else {
@@ -591,7 +642,7 @@ else if (program.args[0] === 'pull') {
 
 // Compile a bot
 else if (program.args[0] === 'compile') {
-    request.get(verifyUri(), okResp);
+    request.get(verifyUri(), verifyResp);
 }
 
 // Talk to a bot

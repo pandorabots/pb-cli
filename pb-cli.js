@@ -137,9 +137,14 @@ var botResp = function (error, response, body) {
 var verifyResp = function (error, response, body) {
   if (!response)
     console.log(error);
-  else if (response.statusCode >= 400)
+  else if (response.statusCode >= 400) {
+    var parsedBody = JSON.parse(body)
+    var fileError = parsedBody ? (parsedBody.results ? parsedBody.results[0] : false) : false
+    if(fileError)
+      console.log(`Error in file:`)
+      console.log(fileError)
     errors.verify(response.statusCode)
-  else {
+  }  else {
     var jObj = JSON.parse(body);
     if (jObj.status === 'ok')
         console.log(jObj.status);

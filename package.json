@@ -11,7 +11,7 @@
   "bugs": {
     "url": "http://github.com/pandorabots/pb-cli/issues"
   },
-  "license": "BSD",
+  "license": "BSD-2-Clause",
   "bin": {
     "pandorabots": "./pb-cli.js",
     "pb": "./pb-cli.js"

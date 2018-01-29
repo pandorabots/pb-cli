@@ -338,7 +338,12 @@ var downloadBotFile = function (fileName, outputPath) {
     else if(response.statusCode >= 400)
       errors.files(response.statusCode)
     else {
-      var jObj = JSON.parse(body);
+      var jObj;
+      try {
+        jObj = JSON.parse(body);
+      } catch(error) {
+        jObj = body;
+      }
       if (response.statusCode === 200) {
         const stream = fs.createWriteStream(path.join(outputPath, fileName))
         stream.write(body, 'utf8')
@@ -488,7 +493,7 @@ nconf.file({file: config});
 nconf.defaults(options);
 
 program
-    .version('1.1.1')
+    .version('1.1.2')
     .usage('command [options] <file ...>')
     .on('--help', function() {
       console.log('\n   General Commands:\n')

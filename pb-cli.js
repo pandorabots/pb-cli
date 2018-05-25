@@ -297,7 +297,7 @@ var listBotResp = function (error, response, body) {
     else {
     	var jObj = JSON.parse(body);
     	if (response.statusCode === 200) {
-    	    jObj.forEach (function (entry) {
+          jObj.forEach (function (entry) {
         		console.log(entry.botname);
     	    });
     	}
@@ -305,6 +305,22 @@ var listBotResp = function (error, response, body) {
     	    console.log(jObj.message);
     }
 }
+
+var listExtraBotResp = function (error, response, body) {
+    if (!response)
+    	console.log(error);
+    else if (response.statusCode >= 400)
+      errors.bots(response.statusCode)
+    else {
+    	var jObj = JSON.parse(body);
+    	if (response.statusCode === 200) {
+          console.log(jObj);
+    	}
+    	else
+    	    console.log(jObj.message);
+    }
+}
+
 
 var fileList = function (jObj) {
     var files = [];
@@ -329,6 +345,19 @@ var listFileResp = function (error, response, body) {
     	else
     	    console.log(jObj.message);
     }
+}
+
+var listExtraFileResp = function (error, response, body) {
+    if (!response)
+	    console.log(error);
+    else if (response.statusCode >= 400)
+	    errors.bots(response.statusCode)
+    else {
+    	var jObj = JSON.parse(body);
+    	if (response.statusCode === 200)
+    	    console.log(jObj);
+    }
+
 }
 
 var downloadBotFile = function (fileName, outputPath) {
@@ -392,7 +421,9 @@ var removeNewLine = function (obj) {
 	return obj;
 }
 
+
 var talkResp = function (error, response, body) {
+
     if (!response)
       console.log(error);
     else if (response.statusCode >= 400)
@@ -409,7 +440,7 @@ var talkResp = function (error, response, body) {
     		    console.log(JSON.stringify(mapAll(jObj, removeNewLine), null, 2));
     	    else {
         		jObj.responses.forEach (function (entry) {
-        		    console.log(entry);
+              console.log(entry);
         		});
 	        }
 	     }
@@ -418,7 +449,24 @@ var talkResp = function (error, response, body) {
     }
 }
 
-var chatResp = function(error, response, body) {
+var writeLogFile = (input, output) => {
+    var arr = [];
+    var note = {
+      input,
+      output
+    };
+    try {
+      var resLogString = fs.readFileSync('Response-log.json');
+      arr = JSON.parse(resLogString);
+    } catch(e) {
+    }
+    arr.push(note);
+    fs.writeFileSync('Response-log.json', JSON.stringify(arr));
+};
+
+var updatedchatResp = function(input){
+  var logString = null;
+  return function(error, response, body) {
     if (!response)
       console.log(error);
     else if (response.statusCode >= 400)
@@ -432,11 +480,14 @@ var chatResp = function(error, response, body) {
 	    nconf.set('sessionid', jObj.sessionid);
 	    jObj.responses.forEach (function (entry) {
 	        console.log(conf_botname() + '> ' + entry);
+          writeLogFile(input,entry);
 	    });
 	}
 	else console.log(jObj.message);
     }
     rl.prompt();
+}
+
 }
 
 var conf_app_id = function () {
@@ -525,7 +576,7 @@ program
     .option('-b, --botname <botname>', 'name of bot')
     .option('-c, --client_name <client_name>', 'name of client')
     .option('-s, --sessionid <sessionid>', 'session id of conversation')
-    .option('-e, --extra', 'provides additional information with bot response')
+    .option('-e, --extra', 'provides additional information')
     .option('-M, --reset', 'reset the bot memory')
     .option('-t, --trace', 'adds trace data into response')
     .option('-r, --reload', 'force system to reload bot')
@@ -569,7 +620,12 @@ if (program.args[0] === 'init') {
 
 // List names of bots
 else if (program.args[0] === 'list') {
+  if (nconf.get('extra')){
+      request.get(listUri(), listExtraBotResp);
+  }else{
     request.get(listUri(), listBotResp);
+  }
+
 }
 
 // Create a bot
@@ -634,7 +690,11 @@ else if (program.args[0] === 'download') {
 
 // List files of bot
 else if (program.args[0] === 'get' && !program.all) {
+  if(nconf.get('extra')){
+      request.get(botUri(conf_botname()), listExtraFileResp);
+  }else{
     request.get(botUri(conf_botname()), listFileResp);
+  }
 }
 
 // Retrieve all files as ZIP
@@ -701,7 +761,7 @@ else if (program.args[0] === 'chat') {
             param.client_name = nconf.get('client_name');
         if (nconf.get('sessionid'))
             param.sessionid = nconf.get('sessionid');
-        request.post({url: talkUri(), form: composeParams(param)}, chatResp);
+        request.post({url: talkUri(), form: composeParams(param)}, updatedchatResp(cmd));
     });
 }
 
@@ -721,7 +781,7 @@ else if (program.args[0] === 'achat') {
             param.client_name = nconf.get('client_name');
         if (nconf.get('sessionid'))
             param.sessionid = nconf.get('sessionid');
-        request.post({url: atalkUri(), form: composeParams(param)}, chatResp);
+        request.post({url: atalkUri(), form: composeParams(param)}, updatedchatResp(cmd));
     });
 }
 

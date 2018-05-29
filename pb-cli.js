@@ -542,7 +542,7 @@ nconf.file({file: config});
 nconf.defaults(options);
 
 program
-    .version('1.2')
+    .version('1.2.0')
     .usage('command [options] <file ...>')
     .on('--help', function() {
       console.log('\n   General Commands:\n')

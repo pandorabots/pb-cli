@@ -1,6 +1,6 @@
 {
   "name": "pb-cli",
-  "version": "1.2",
+  "version": "1.2.0",
   "description": "Pandorabots API command line interface",
   "keywords": [
     "Pandorabots",

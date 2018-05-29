@@ -81,4 +81,3 @@ echo %% delete bot abcdefg
 cmd delete --yes
 
 exit 0
-

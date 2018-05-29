@@ -450,21 +450,19 @@ var talkResp = function (error, response, body) {
 }
 
 var writeLogFile = (input, output) => {
-    var arr = [];
-    var note = {
-      input,
-      output
-    };
-    try {
-      var resLogString = fs.readFileSync('Response-log.json');
-      arr = JSON.parse(resLogString);
-    } catch(e) {
-    }
-    arr.push(note);
-    fs.writeFileSync('Response-log.json', JSON.stringify(arr));
+  var arr = "";
+  var note = `${input}\t${output}\n`;
+
+  try{
+    arr = fs.readFileSync('response-log.tsv').toString();
+  }catch(e){
+    arr = "Input\tOuput\n";
+  }
+  arr += note;
+  fs.writeFileSync('response-log.tsv', arr)
 };
 
-var updatedchatResp = function(input){
+var updatedChatResp = function(input){
   var logString = null;
   return function(error, response, body) {
     if (!response)
@@ -761,7 +759,7 @@ else if (program.args[0] === 'chat') {
             param.client_name = nconf.get('client_name');
         if (nconf.get('sessionid'))
             param.sessionid = nconf.get('sessionid');
-        request.post({url: talkUri(), form: composeParams(param)}, updatedchatResp(cmd));
+        request.post({url: talkUri(), form: composeParams(param)}, updatedChatResp(cmd));
     });
 }
 
@@ -781,7 +779,7 @@ else if (program.args[0] === 'achat') {
             param.client_name = nconf.get('client_name');
         if (nconf.get('sessionid'))
             param.sessionid = nconf.get('sessionid');
-        request.post({url: atalkUri(), form: composeParams(param)}, updatedchatResp(cmd));
+        request.post({url: atalkUri(), form: composeParams(param)}, updatedChatResp(cmd));
     });
 }
 

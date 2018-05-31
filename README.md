@@ -2,9 +2,9 @@
 
 The Pandorabots CLI allows you to manage and interact with your AIaaS applications straight from the command line.
 
-Please read the [documentation](http://developer.pandorabots.com/docs) for further information regarding naming conventions and file types.
+Please read the [documentation](http://www.pandorabots.com/docs) for further information regarding naming conventions and file types.
 
-*Note: You will need both a* `user_key` *and* `app_id`*, which you can register for at the [Pandorabots Developer Portal](http://developer.pandorabots.com).*
+*Note: You will need both a* `user_key` *and* `app_id`*, which you can register for at [Pandorabots](https://www.pandorabots.com) when you sign up as a Premium user, or if you are a legacy user, login at the [AIAAS developer portal](https://developer.pandorabots.com/)*
 
 ## Installation
 

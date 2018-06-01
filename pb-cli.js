@@ -456,7 +456,7 @@ var writeLogFile = (input, output) => {
   try{
     arr = fs.readFileSync('response-log.tsv').toString();
   }catch(e){
-    arr = "Input\tOuput\n";
+    arr = "Input\tOutput\n";
   }
   arr += note;
   fs.writeFileSync('response-log.tsv', arr)

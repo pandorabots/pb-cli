@@ -31,6 +31,9 @@ node_modules
 chatbot.json*
 test/chatbot.json
 
+# response-log.tsv
+*.tsv
+
 # zip
 *.zip
 

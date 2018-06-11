@@ -2,9 +2,9 @@
 
 The Pandorabots CLI allows you to manage and interact with your AIaaS applications straight from the command line.
 
-Please read the [documentation](http://developer.pandorabots.com/docs) for further information regarding naming conventions and file types.
+Please read the [documentation](http://www.pandorabots.com/docs) for further information regarding naming conventions and file types.
 
-*Note: You will need both a* `user_key` *and* `app_id`*, which you can register for at the [Pandorabots Developer Portal](http://developer.pandorabots.com).*
+*Note: You will need both a* `user_key` *and* `app_id`*, which you can register for at [Pandorabots](https://www.pandorabots.com) when you sign up as a Premium user, or if you are a legacy user, login at the [AIAAS developer portal](https://developer.pandorabots.com/)*
 
 ## Installation
 
@@ -39,13 +39,14 @@ You can create this file manually, or, use the `init` command to be guided throu
 
 ```bash
 $ pb init
-app_id? (required) *********
-user_key? (required) ********
+app_id? *********
+user_key? ********
+botkey? (recommended) ********
 botname? (recommended) ********
 hostname? (optional) ******
 ```
 
-The hostname field is optional, and will default to `aiaas.pandorabots.com`.
+The hostname field is optional, and will default to `api.pandorabots.com`.
 
 ## Run tests
 

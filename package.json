@@ -1,3 +1,4 @@
+
 {
   "name": "pb-cli",
   "version": "1.3.0",
@@ -49,3 +50,56 @@
     }
   ]
 }
+
+{
+  "name": "pb-cli",
+  "version": "1.2.0",
+  "description": "Pandorabots API command line interface",
+  "keywords": [
+    "Pandorabots",
+    "NLP",
+    "AI"
+  ],
+  "homepage": "http://github.com/pandorabots/pb-cli/",
+  "bugs": {
+    "url": "http://github.com/pandorabots/pb-cli/issues"
+  },
+  "license": "BSD-2-Clause",
+  "bin": {
+    "pandorabots": "./pb-cli.js",
+    "pb": "./pb-cli.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/pandorabots/pb-cli.git"
+  },
+  "dependencies": {
+    "commander": ">=2.5.1",
+    "filequeue": "^0.5.0",
+    "glob": ">=4.3.2",
+    "nconf": ">=0.7.1",
+    "prompt": ">=0.2.14",
+    "request": ">=2.51.0",
+    "unzip": ">=0.1.11"
+  },
+  "author": "yyconn <conn@conn.jp>",
+  "contributors": [
+    {
+      "name": "Daniel Fried",
+      "email": "daniel.fried@pandorabots.com"
+    },
+    {
+      "name": "Tina Coles",
+      "email": "tina.coles@pandorabots.com"
+    },
+    {
+      "name": "Amelia Clarke",
+      "email": "amelia.clarke@pandorabots.com"
+    },
+    {
+      "name": "Aadish Joshi",
+      "email": "aadish.joshi@pandorabots.com"
+    }
+  ]
+}
+

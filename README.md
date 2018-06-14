@@ -47,6 +47,15 @@ hostname? (optional) ******
 
 The hostname field is optional, and will default to `aiaas.pandorabots.com`.
 
+#### botkey feature for api.pandorabots.com users (optional)
+v1.3.0 allows users to talk to the bot using a public botkey in place of the user_key and app_id. 
+This feature is only for api.pandorabots.com users, and can be manually specified in chatbot.json as follows:
+
+```bash
+botkey: ********,
+hostname: api.pandorabots.com
+```
+
 ## Run tests
 
 The `test` directory contains a shell script to test the CLI. You must first run `pb init` here to create a configuration, then run:

@@ -1,5 +1,5 @@
 const invalidBotname = 'Invalid botname.'
-const invalidCredentials = 'Invalid app_id or user_key.'
+const invalidCredentials = 'Invalid app_id, user_key, or botkey.'
 
 const errorCodes = {
   bots: {
@@ -23,7 +23,8 @@ const errorCodes = {
     400: 'Malformed request. This can be caused by an invalid botname or client_name, or by exceeding input size limits.',
     401: 'Invalid user_key.',
     412: 'The bot does not exist for that app_id or is not compiled.',
-    429: 'Your application has reached the maximum number of API calls for your current plan.'
+    429: 'Your application has reached the maximum number of API calls for your current plan.',
+    502: 'Bad Gateway. Check host credentials'
   }
 }
 

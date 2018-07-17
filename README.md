@@ -2,9 +2,9 @@
 
 The Pandorabots CLI allows you to manage and interact with your AIaaS applications straight from the command line.
 
-Please read the [documentation](http://www.pandorabots.com/docs) for further information regarding naming conventions and file types.
+Please read the [documentation](http://developer.pandorabots.com/docs) for further information regarding naming conventions and file types.
 
-*Note: You will need both a* `user_key` *and* `app_id`*, which you can register for at [Pandorabots](https://www.pandorabots.com) when you sign up as a Premium user, or if you are a legacy user, login at the [AIAAS developer portal](https://developer.pandorabots.com/)*
+*Note: You will need both a* `user_key` *and* `app_id`*, which can be found at the [Pandorabots Developer Portal](https://developer.pandorabots.com) for legacy users, or on the [Pandorabots](https://home.pandorabots.com) account page.*
 
 ## Installation
 
@@ -22,10 +22,10 @@ The CLI introduces the concept of the bot configuration file, `chatbot.json`. Th
 
 ```js
 {
+  hostname: ********,
   app_id: ********,
   user_key: *******,
-  botname: ********,
-  hostname: ********
+  botname: ********
 }
 ```
 
@@ -39,21 +39,25 @@ You can create this file manually, or, use the `init` command to be guided throu
 
 ```bash
 $ pb init
+hostname? (optional) ******
 app_id? (required) *********
 user_key? (required) ********
 botname? (recommended) ********
-hostname? (optional) ******
 ```
 
 The hostname field is optional, and will default to `aiaas.pandorabots.com`.
 
-#### botkey feature for api.pandorabots.com users (optional)
-v1.3.0 allows users to talk to the bot using a public botkey in place of the user_key and app_id. 
-This feature is only for api.pandorabots.com users, and can be manually specified in chatbot.json as follows:
+#### botkey feature for api.pandorabots.com users
+
+v1.3.1 introduces a new `public botkey` option for talk, atalk, chat, and achat interactions by premium users i.e. users of `api.pandorabots.com`
+
+This is primarily used for added security in browser-based talk interactions, but is available in pb-cli for testing purposes.
+
+You can add this manually in `chatbot.json`, or use the `init` command to be guided through the process:
 
 ```bash
-botkey: ********,
-hostname: api.pandorabots.com
+hostname: api.pandorabots.com,
+botkey: ********
 ```
 
 ## Run tests

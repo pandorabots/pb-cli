@@ -13,8 +13,8 @@
   },
   "license": "BSD-2-Clause",
   "bin": {
-    "pandorabots": "./pb-cli.js",
-    "pb": "./pb-cli.js"
+    "pandorabots": "./pb-cli/index.js",
+    "pb": "./pb-cli/index.js"
   },
   "repository": {
     "type": "git",

@@ -37,3 +37,4 @@ test/chatbot.json
 # zip
 *.zip
 
+package-lock.json

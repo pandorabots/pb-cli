@@ -1,0 +1,126 @@
+{
+  "botName": "testbot",
+  "hosts": {
+    "aiaas": {
+      "appId": "1409611232618",
+      "userKey": "2df5a79d58163b57a41c0437d08ac734",
+      "hostname": "aiaas.pandorabots.com",
+      "botKey": null,
+      "expectations": {
+        "bot_list": [
+          "spotifybot",
+          "olimpia",
+          "musiccat",
+          "mitsuku",
+          "drakebot",
+          "bch",
+          "aimliza"
+        ],
+        "bot_files": [
+          "testbot.properties",
+          "testbot.pdefaults",
+          "test.aiml",
+          "test.map",
+          "test.set",
+          "test.substitution"
+        ]
+      }
+    },
+    "aiaasst": {
+      "appId": "1409611232618",
+      "userKey": "2df5a79d58163b57a41c0437d08ac734",
+      "hostname": "aiaasst.pandorabots.com",
+      "botKey": null,
+      "expectations": {
+        "bot_list": [
+          "spotifybot",
+          "olimpia",
+          "musiccat",
+          "mitsuku",
+          "drakebot",
+          "bch",
+          "aimliza"
+        ],
+        "bot_files": [
+          "testbot.properties",
+          "testbot.pdefaults",
+          "test.aiml",
+          "test.map",
+          "test.set",
+          "test.substitution"
+        ]
+      }
+    },
+    "staging": {
+      "appId": "unc74674ee",
+      "userKey": "pb286870419585804751363300313532478164285",
+      "hostname": "home.pandorabots.com",
+      "botKey": null,
+      "expectations": {
+        "bot_list": [ ],
+        "bot_files": [
+          "testbot.properties",
+          "testbot.pdefaults",
+          "test.aiml",
+          "test.map",
+          "test.set",
+          "test.substitution",
+          "udc.aiml",
+          "person2.substitution",
+          "person.substitution",
+          "normal.substitution",
+          "gender.substitution",
+          "denormal.substitution"
+        ]
+      }
+    },
+    "production": {
+      "appId": "unc74674ee",
+      "userKey": "e210b0bc96254b3c15cc54c85421cded",
+      "hostname": "api.pandorabots.com",
+      "botKey": "-GGTZt0CMbF6HHLcbQB2AHlEc7IgU1nsG7zFMYYP_0f5qy7mfM5-WiSNlHItvY4zAokM1I-LLwc~",
+      "expectations": {
+        "bot_list": [],
+        "bot_files": [
+          "testbot.properties",
+          "testbot.pdefaults",
+          "test.aiml",
+          "test.map",
+          "test.set",
+          "test.substitution",
+          "udc.aiml",
+          "person2.substitution",
+          "person.substitution",
+          "normal.substitution",
+          "gender.substitution",
+          "denormal.substitution"
+        ]
+      }
+    },
+    "stapi": {
+      "appId": "unc74674ee",
+      "userKey": "e210b0bc96254b3c15cc54c85421cded",
+      "hostname": "stapi.pandorabots.com",
+      "botKey": "-GGTZt0CMbF6HHLcbQB2AHlEc7IgU1nsG7zFMYYP_0f5qy7mfM5-WiSNlHItvY4zAokM1I-LLwc~",
+      "expectations": {
+        "bot_list": [
+          "oldbot"
+        ],
+        "bot_files": [
+          "testbot.properties",
+          "testbot.pdefaults",
+          "test.aiml",
+          "test.map",
+          "test.set",
+          "test.substitution",
+          "udc.aiml",
+          "person2.substitution",
+          "person.substitution",
+          "normal.substitution",
+          "gender.substitution",
+          "denormal.substitution"
+        ]
+      }
+    }
+  }
+}

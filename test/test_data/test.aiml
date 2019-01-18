@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aiml version="2.0">
+  <category>
+      <pattern>xtest</pattern>
+      <template>
+          Yay! This is the expected test response.
+      </template>
+  </category>
+  <category>
+      <pattern>get xfruit</pattern>
+      <template>
+          The stored 'fruit' predicate is <get name="fruit" />.
+      </template>
+  </category>
+  <category>
+      <pattern>xfruit *</pattern>
+      <template>
+         The 'fruit' predicate was set to <set name="fruit"><star/></set>.
+      </template>
+  </category>
+  <category>
+      <pattern>get xtopic</pattern>
+      <template>
+         The stored 'topic' predicate is <get name="topic" />.
+      </template>
+  </category>
+  <category>
+      <pattern>get xthat</pattern>
+      <template>
+         The stored 'that' predicate is <get name="that" />.
+      </template>
+  </category>
+</aiml>

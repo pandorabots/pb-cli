@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aiml version="2.0">
+  <category>
+      <pattern>xtest
+      <template>
+          Yay! This is the expected test response.
+      </template>
+  </category>
+</aiml>

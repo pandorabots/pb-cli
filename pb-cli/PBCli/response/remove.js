@@ -15,7 +15,7 @@ function removeResp(error, response, body) {
 		    name: 'filename',
 		    required: true
 		};
-		this.prompt.get(prop, function (error, result) {
+		this.prompt.get(prop, (error, result) => {
 		    if (error) {
 			console.log("aborted.");
 			process.exit(2);

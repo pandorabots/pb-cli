@@ -1,4 +1,4 @@
-var conf_app_id = function () {
+function conf_app_id() {
     var app_id = this.nconf.get('app_id');
     if (app_id === undefined) {
 	console.log('app_id required. use --app_id <app_id> or do init');
@@ -7,7 +7,7 @@ var conf_app_id = function () {
     return app_id;
 }
 
-var conf_user_key = function () {
+function conf_user_key() {
     var user_key = this.nconf.get('user_key');
     if (user_key === undefined) {
 	console.log('user_key required. use --user_key <user_key> or do init');
@@ -16,7 +16,7 @@ var conf_user_key = function () {
     return user_key;
 }
 
-var conf_botkey = function () {
+function conf_botkey() {
     var botkey = this.nconf.get('botkey');
     if (botkey === undefined) {
 	console.log('botkey required. use --botkey <botkey> or do init');
@@ -25,7 +25,7 @@ var conf_botkey = function () {
     return botkey;
 }
 
-var conf_botname = function () {
+function conf_botname() {
     var botname = this.nconf.get('botname');
     if (botname === undefined) {
 	console.log('botname required. use --botname <botname> or do init');

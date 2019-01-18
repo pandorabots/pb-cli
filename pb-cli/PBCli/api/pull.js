@@ -3,7 +3,7 @@ const request = require('request')
 const path = require('path')
 
 function pullBotFiles (filePath) {
-  var pullResp = function (error, response, body) {
+  var pullResp = (error, response, body) => {
       if (!response)
   	   console.log(error);
       else if (response.statusCode >= 400)
@@ -11,15 +11,16 @@ function pullBotFiles (filePath) {
       else {
       	var jObj = JSON.parse(body);
       	if (response.statusCode === 200) {
-      	    this.util.fileList(jObj).forEach (function (file) {
-          		request.get(this.uri.file(file)).pipe(fs.createWriteStream(path.join(filePath, file)));
-      	    });
+          this.util.fileList(jObj).forEach((file) => {
+            request.get(this.uri.file(file)).pipe(fs.createWriteStream(path.join(filePath, file)));
+          });
+          console.log('ok')
       	}
       	else
       	    console.log(jObj.message);
       }
   }
-  request.get({url: this.uri.bot(this.params.botname()), headers: {'Connection': 'keep-alive'}}, this.response.pull);
+  request.get({url: this.uri.bot(this.params.botname()), headers: {'Connection': 'keep-alive'}}, pullResp);
 }
 
 

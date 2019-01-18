@@ -11,7 +11,7 @@ function deletePerf(botname) {
 	    name: 'resp', required: true, validator: /^(y|yes|n|no)$/i,
 	    warning: 'please answer yes or no.'
 	};
-	this.prompt.get(prop, function (error, result) {
+	this.prompt.get(prop, (error, result) => {
 	    var yesRe = /^(y|yes)$/i;
 	    if (error) {
 		console.log("aborted.");
@@ -34,7 +34,7 @@ function removePerf(filename) {
 	    name: 'resp', required: true, validator: /^(y|yes|n|no)$/i,
 	    warning: 'please answer yes or no.'
 	};
-	this.prompt.get(prop, function (error, result) {
+	this.prompt.get(prop, (error, result) => {
 	    var yesRe = /^(y|yes)$/i;
 	    if (error) {
 		console.log("aborted.");
@@ -67,10 +67,10 @@ function fileList (jObj) {
     var files = [];
     if (jObj.properties.length) files.push(jObj.botname + ".properties");
     if (jObj.pdefaults.length) files.push(jObj.botname + ".pdefaults");
-    jObj.files.forEach (function (entry) { files.push(entry.name); });
-    jObj.sets.forEach (function (entry) { files.push(entry.name + ".set"); });
-    jObj.maps.forEach (function (entry) { files.push(entry.name + ".map"); });
-    jObj.substitutions.forEach (function (entry) { files.push(entry.name + ".substitution"); });
+    jObj.files.forEach ((entry) => { files.push(entry.name); });
+    jObj.sets.forEach ((entry) => { files.push(entry.name + ".set"); });
+    jObj.maps.forEach ((entry) => { files.push(entry.name + ".map"); });
+    jObj.substitutions.forEach ((entry) => { files.push(entry.name + ".substitution"); });
     return files;
 }
 

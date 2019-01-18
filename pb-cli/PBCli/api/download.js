@@ -1,8 +1,9 @@
 const fs = require('fs')
 const request = require('request')
+const path = require('path')
 
 function downloadBotFile (fileName, outputPath) {
-  var onResp = function(error, response, body) {
+  var onResp = (error, response, body) => {
     if (!response)
       console.log(error)
     else if(response.statusCode >= 400)

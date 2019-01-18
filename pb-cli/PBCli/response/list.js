@@ -6,7 +6,7 @@ function onListResponse (error, response, body) {
     else {
     	var jObj = JSON.parse(body);
     	if (response.statusCode === 200)
-    	    this.util.fileList(jObj).forEach (function (file) { console.log(file); });
+    	    this.util.fileList(jObj).forEach ((file) => { console.log(file); });
     	else
     	    console.log(jObj.message);
     }

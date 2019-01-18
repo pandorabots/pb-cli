@@ -10,7 +10,7 @@ function onAchat() {
   });
   rl.setPrompt('user> ');
   rl.prompt();
-  rl.on('line', function(cmd) {
+  rl.on('line', (cmd) => {
       var param = {input: cmd};
       if (this.nconf.get('client_name'))
           param.client_name = this.nconf.get('client_name');
@@ -19,9 +19,9 @@ function onAchat() {
         if(this.util.usingBotkey()){
           //  *@usingBotkey() returns true if botkey exists or all three user_key, app_id, bot_key exists
           //  *@usingBotkey() return false if botkey does not exists
-          request.post({url: this.uri.atalkBkey(), form: this.params.composeBkey(param)}, this.response.chat(cmd));
+          request.post({url: this.uri.atalkBkey(), form: this.params.composeBkey(param)}, this.response.chat(cmd, rl));
         }else{
-          request.post({url: this.uri.atalk(), form: this.params.compose(param)}, this.response.chat(cmd));
+          request.post({url: this.uri.atalk(), form: this.params.compose(param)}, this.response.chat(cmd, rl));
         }
   });
 }

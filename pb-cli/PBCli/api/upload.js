@@ -2,7 +2,7 @@ const fs = require('fs')
 const request = require('request')
 
 function retryOnFile (file, cb) {
-    fs.exists(file, function (doesExist) {
+    fs.exists(file, (doesExist) => {
 	if (doesExist)
 	    cb(file);
 	else {
@@ -13,7 +13,7 @@ function retryOnFile (file, cb) {
 		    name: 'input',
 		    required: true
 		};
-		this.prompt.get(prop, function (error, result) {
+		this.prompt.get(prop, (error, result) => {
 		    if (error) {
 			console.log("aborted.");
 			process.exit(2);
@@ -28,7 +28,7 @@ function retryOnFile (file, cb) {
 
 function onUpload() {
   if (this.program.args[1]) {
-    retryOnFile(this.program.args[1], function (entry) {
+    retryOnFile(this.program.args[1], (entry) => {
       fs.createReadStream(entry).pipe(request.put(this.uri.file(entry), this.response.file));
     });
   } else {

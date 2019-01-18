@@ -1,4 +1,5 @@
 const url = require('url')
+const path = require('path')
 
 function sep(str) {
   return str ? `/${str}` : ''

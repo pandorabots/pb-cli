@@ -23,7 +23,7 @@ function listBotResp(error, response, body) {
     else {
     	var jObj = JSON.parse(body);
     	if (response.statusCode === 200) {
-          jObj.forEach (function (entry) {
+          jObj.forEach ((entry) => {
         		console.log(entry.botname);
     	    });
     	}

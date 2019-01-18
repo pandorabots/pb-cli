@@ -15,7 +15,7 @@ class PBCli {
     this.program = program
     this.nconf = nconf
     this.prompt = prompt
-
+    this.errors = errors
 
     this.api = api(this)
     this.uri = uri(this)

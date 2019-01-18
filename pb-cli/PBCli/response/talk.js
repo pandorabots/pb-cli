@@ -30,7 +30,7 @@ function talkResp(error, response, body) {
     	    if (this.nconf.get('extra') || this.nconf.get('trace'))
     		    console.log(JSON.stringify(mapAll.bind(this)(jObj, removeNewLine), null, 2));
     	    else {
-        		jObj.responses.forEach (function (entry) {
+        		jObj.responses.forEach ((entry) => {
               console.log(entry);
         		});
 	        }

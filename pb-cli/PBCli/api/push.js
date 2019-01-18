@@ -12,7 +12,7 @@ function onPush() {
   }
   var files = glob.sync(dirpath, {matchBase: true});
   if (files.length) {
-    files.forEach (function (entry) {
+    files.forEach ((entry) => {
       console.log('uploading: ' + entry);
       fq.createReadStream(entry).pipe(request.put(this.uri.file(entry), this.response.file));
     });

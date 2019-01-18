@@ -1,12 +1,15 @@
 {
   "name": "pb-cli",
-  "version": "1.3.1",
+  "version": "1.4.0",
   "description": "Pandorabots API command line interface",
   "keywords": [
     "Pandorabots",
     "NLP",
     "AI"
   ],
+  "scripts": {
+    "test": "python testrunner.py"
+  },
   "homepage": "http://github.com/pandorabots/pb-cli/",
   "bugs": {
     "url": "http://github.com/pandorabots/pb-cli/issues"
